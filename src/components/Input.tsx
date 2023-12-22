@@ -24,21 +24,23 @@ export default function Input({ error, ...props }: InputProps) {
   return (
     <div
       className={`
-    bg-gray-800  rounded-lg p-4 w-full border-2 border-solid  flex items-center 
-    ${isFocused ? 'text-orange-500 border-orange-500' : 'text-zinc-300'}
+    flex  w-full items-center rounded-lg border-2 border-solid  bg-gray-800 p-4 
+    ${isFocused ? 'border-orange-500 text-orange-500' : 'text-zinc-300'}
     ${isFilled ? 'text-orange-500' : ''}
     ${!!error ? 'border-red-600' : ''}
     `}
     >
       <input
-        className='flex-1 border-0 placeholder:text-zinc-400 bg-transparent focus:outline-none'
+        className="flex-1
+        border-0  bg-transparent
+          placeholder:text-zinc-400 focus:outline-none"
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         {...props}
       />
       {!!error && (
         <Tooltip title={error.message as string}>
-          <AlertCircle color='#c53030' size={20} className='m-0' />
+          <AlertCircle color="#c53030" size={20} className="m-0" />
         </Tooltip>
       )}
     </div>

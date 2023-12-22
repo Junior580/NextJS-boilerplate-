@@ -8,9 +8,9 @@ type TooltipProps = {
 
 export default function Tooltip({ title, className, children }: TooltipProps) {
   return (
-    <div className='relative h-5 ml-4'>
+    <div className="group relative ml-4  mr-4 h-5 w-0">
       {children}
-      <span className='invisible transition-all ease-in-out  hover:visible'>
+      <span className="absolute top-10	z-10 min-w-full scale-0 whitespace-nowrap  rounded-lg border-2 border-gray-800 bg-orange-500 p-2 text-xs text-gray-800 group-hover:scale-100">
         {title}
       </span>
     </div>

@@ -1,14 +1,17 @@
 import { ComponentProps } from 'react'
 
-type ButtonProps = ComponentProps<'button'>
+type ButtonProps = ComponentProps<'button'> & {
+  name: string
+  isLoading: boolean
+}
 
-export default function Button({ ...props }: ButtonProps) {
+export default function Button({ name, isLoading, ...props }: ButtonProps) {
   return (
     <button
-      className='bg-orange-500 h-14 rounded-lg w-full py-4 text-slate-700 font-medium hover:bg-orange-400 transition duration-300'
+      className="h-14 w-full rounded-lg bg-orange-500 py-4 font-medium text-slate-700 transition duration-300 hover:bg-orange-400"
       {...props}
     >
-      Entrar
+      {isLoading ? 'carregando' : name}
     </button>
   )
 }
