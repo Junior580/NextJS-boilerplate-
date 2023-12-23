@@ -18,9 +18,9 @@ export default function AdminLayout({
   const cookieStore = cookies()
   const authToken = cookieStore.get('@auth')
 
-  if (!authToken) {
-    redirect('/signin')
-  }
+  // if (!authToken) {
+  //   redirect('/signin')
+  // }
 
   return (
     <html lang="en">
