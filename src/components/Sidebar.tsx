@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import {
   ClipboardCopy,
   CircleDollarSign,
@@ -11,11 +10,18 @@ import {
   ArrowRight,
   ArrowLeft,
 } from 'lucide-react'
+import useToggle from '@/hooks/useToggle'
+import api from '@/services/api'
+import { useRouter } from 'next/navigation'
 
 export default function Sidebar() {
-  const [sidebar, setSidebar] = useState(true)
+  const router = useRouter()
 
-  const showSidebar = () => setSidebar(!sidebar)
+  const [sidebar, toggleValue] = useToggle(true)
+
+  const logout = async () => {
+    await api.post('/logout').then(() => router.replace('/signin'))
+  }
 
   return (
     <aside
@@ -28,7 +34,7 @@ export default function Sidebar() {
         {sidebar && <p className="hidden md:block">Painel Admin</p>}
       </h1>
 
-      <button onClick={showSidebar} className="hidden md:block">
+      <button onClick={toggleValue} className="hidden md:block">
         {sidebar ? (
           <ArrowLeft
             className="absolute -right-2 top-16 rounded-full border-2 border-solid border-gray-400 bg-white"
@@ -44,7 +50,7 @@ export default function Sidebar() {
 
       <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
         <a href="">
-          <div className="text-primary hover:text-primary_hover  flex  py-1 duration-150 ease-in-out ">
+          <div className="flex py-1  text-primary  duration-150 ease-in-out hover:text-primary_hover ">
             <Clock4 className="ml-4" />
             {sidebar && (
               <p className="ml-4 hidden shadow-2xl md:block">Clock Time</p>
@@ -52,13 +58,13 @@ export default function Sidebar() {
           </div>
         </a>
         <a href="">
-          <div className="text-primary hover:text-primary_hover  flex py-1 duration-150 ease-in-out">
+          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
             <CircleDollarSign className="ml-4" />
             {sidebar && <p className="ml-4 hidden md:block">Tarefas</p>}
           </div>
         </a>
         <a href="">
-          <div className="text-primary hover:text-primary_hover  flex py-1 duration-150 ease-in-out">
+          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
             <ClipboardCopy className="ml-4" />
             {sidebar && (
               <p className="ml-4 hidden md:block">Lista de produtos</p>
@@ -74,9 +80,10 @@ export default function Sidebar() {
           </div>
         </a>
       </ul>
+
       <button
-        className="text-primary hover:text-primary_hover mb-8 duration-150 ease-in-out"
-        onClick={() => {}}
+        className="mb-8 text-primary duration-150 ease-in-out hover:text-primary_hover"
+        onClick={logout}
       >
         <LogOut />
 
