@@ -25,8 +25,8 @@ export default function Input({ error, ...props }: InputProps) {
     <div
       className={`
     flex  w-full items-center rounded-lg border-2 border-solid  bg-gray-800 p-4 
-    ${isFocused ? 'border-orange-500 text-orange-500' : 'text-zinc-300'}
-    ${isFilled ? 'text-orange-500' : ''}
+    ${isFocused ? 'border-primary text-white' : 'text-zinc-300'}
+    ${isFilled ? 'text-primary' : ''}
     ${!!error ? 'border-red-600' : ''}
     `}
     >

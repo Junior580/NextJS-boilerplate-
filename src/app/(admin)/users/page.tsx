@@ -71,7 +71,7 @@ export default function Permissions() {
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
       <section className="flex  w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
-        <h1 className="font-bold">Permissions:</h1>
+        <h1 className="font-bold">Users:</h1>
         <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-t1 px-3 duration-300 ease-in-out hover:w-64">
           <input
             type="search"

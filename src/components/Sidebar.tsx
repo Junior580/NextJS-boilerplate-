@@ -8,11 +8,14 @@ import {
   LogOut,
   ArrowRight,
   ArrowLeft,
+  Users,
+  UnlockIcon,
 } from 'lucide-react'
 import useToggle from '@/hooks/useToggle'
 import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Sidebar() {
   const router = useRouter()
@@ -20,7 +23,7 @@ export default function Sidebar() {
   const [sidebar, toggleValue] = useToggle(true)
 
   const logout = async () => {
-    await api.post('/logout').then(() => router.replace('/signin'))
+    await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
 
   return (
@@ -67,33 +70,37 @@ export default function Sidebar() {
         </button>
 
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
-          <a href="">
-            <div className="flex py-1  text-primary  duration-150 ease-in-out hover:text-primary_hover ">
-              <Clock4 className="ml-4" />
-              {sidebar && (
-                <p className="ml-4 hidden shadow-2xl md:block">Clock Time</p>
-              )}
-            </div>
-          </a>
-          <a href="">
-            <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
-              <CircleDollarSign className="ml-4" />
-              {sidebar && <p className="ml-4 hidden md:block">Tarefas</p>}
-            </div>
-          </a>
-          <a href="">
-            <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
-              <ClipboardCopy className="ml-4" />
-              {sidebar && (
-                <p className="ml-4 hidden md:block">Lista de produtos</p>
-              )}
-            </div>
-          </a>
+          <div className="flex py-1  text-primary  duration-150 ease-in-out hover:text-primary_hover ">
+            <Users className="ml-4" />
+            {sidebar && (
+              <Link href="/users" className="ml-4 hidden shadow-2xl md:block">
+                Users
+              </Link>
+            )}
+          </div>
+          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
+            <UnlockIcon className="ml-4" />
+            {sidebar && (
+              <Link href="/permissions" className="ml-4 hidden md:block">
+                Permissions
+              </Link>
+            )}
+          </div>
+          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
+            <ClipboardCopy className="ml-4" />
+            {sidebar && (
+              <Link href="*" className="ml-4 hidden md:block">
+                Implementar
+              </Link>
+            )}
+          </div>
           <a href="">
             <div className="flex py-1   text-green-600 duration-150 ease-in-out hover:text-green-400">
               <ClipboardEdit className="ml-4" />
               {sidebar && (
-                <p className="ml-4 hidden md:block">Lista de serviços</p>
+                <Link href="*" className="ml-4 hidden md:block">
+                  Implementar
+                </Link>
               )}
             </div>
           </a>

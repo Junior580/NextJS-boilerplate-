@@ -35,7 +35,7 @@ export default function SignIn() {
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: async (data: SignUpSchemaType) => {
-      return api.post('/api/auth', data)
+      return api.post('/auth', data)
     },
     onSuccess: () => router.replace('/dashboard'),
   })

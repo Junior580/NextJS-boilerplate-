@@ -10,9 +10,9 @@ export default function AdminLayout({
   const cookieStore = cookies()
   const authToken = cookieStore.get('@auth')
 
-  // if (!authToken) {
-  //   redirect('/signin')
-  // }
+  if (!authToken) {
+    redirect('/signin')
+  }
 
   return (
     <main className="flex h-screen flex-row bg-secondary_bg ">
