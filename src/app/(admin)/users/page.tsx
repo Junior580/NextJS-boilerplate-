@@ -18,17 +18,23 @@ type PaginationProps = {
   itemsPerPage: number
   firstPage: number
   totalPages: number
+  teste: string
 }
 
 export default function Permissions() {
   const [data, setData] = useState<any[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
+
+  const [searchFilter, setSearchFilter] = useState<string>('')
+  console.log(searchFilter)
+
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
     itemsPerPage: 10,
     firstPage: 1,
     totalPages: 0,
+    teste: '',
   })
 
   const { page, itemsPerPage, firstPage, totalPages } = pagination
@@ -66,11 +72,13 @@ export default function Permissions() {
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
       <section className="flex  w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
         <h1 className="font-bold">Permissions:</h1>
-        <div className="flex h-full items-center justify-center rounded-3xl bg-t1 px-3">
+        <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-t1 px-3 duration-300 ease-in-out hover:w-64">
           <input
             type="search"
             placeholder="Search Data..."
             className="w-full border-none bg-transparent px-1 py-2 outline-none"
+            value={searchFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
           />
           <Search />
         </div>
@@ -104,42 +112,48 @@ export default function Permissions() {
           </thead>
           <tbody className="h-full">
             {data &&
-              data.map((item, key) => {
-                return (
-                  <tr key={key}>
-                    <td className="border-collapse text-center">{item.id}</td>
-                    <td className=" border-collapse">
-                      <td className="flex items-center">
-                        <Image
-                          src="https://avatars.githubusercontent.com/u/93562736?v=4"
-                          alt={'username'}
-                          width={36}
-                          height={36}
-                          priority
-                          className="mr-2 rounded-full align-middle"
-                        />
-                        <td>{item.name}</td>
+              data
+                .filter((item) => {
+                  return searchFilter.toLowerCase() === ''
+                    ? item
+                    : item.name.toLowerCase().includes(searchFilter)
+                })
+                .map((item, key) => {
+                  return (
+                    <tr key={key}>
+                      <td className="border-collapse text-center">{item.id}</td>
+                      <td className=" border-collapse">
+                        <td className="flex items-center">
+                          <Image
+                            src="https://avatars.githubusercontent.com/u/93562736?v=4"
+                            alt={'username'}
+                            width={36}
+                            height={36}
+                            priority
+                            className="mr-2 rounded-full align-middle"
+                          />
+                          <td>{item.name}</td>
+                        </td>
                       </td>
-                    </td>
-                    <td className="border-collapse p-4">{item.city}</td>
-                    <td className="border-collapse p-4">17 Dec, 2022</td>
-                    <td className="border-collapse p-4">
-                      <td>{item.status}</td>
-                    </td>
-                    <td className="border-collapse p-4">{item.amount}</td>
-                    <td className="border-collapse p-4">
-                      <td className="flex items-center justify-center">
-                        <button className="cursor-pointer  rounded-lg hover:bg-primary_hover">
-                          <FileEdit />
-                        </button>
-                        <button className="cursor-pointer  rounded-lg hover:bg-primary_hover">
-                          <Trash />
-                        </button>
+                      <td className="border-collapse p-4">{item.city}</td>
+                      <td className="border-collapse p-4">17 Dec, 2022</td>
+                      <td className="border-collapse p-4">
+                        <td>{item.status}</td>
                       </td>
-                    </td>
-                  </tr>
-                )
-              })}
+                      <td className="border-collapse p-4">{item.amount}</td>
+                      <td className="border-collapse p-4">
+                        <td className="flex items-center justify-center">
+                          <button className="cursor-pointer rounded-lg p-1 duration-150  ease-in-out hover:bg-primary_hover">
+                            <FileEdit />
+                          </button>
+                          <button className="cursor-pointer rounded-lg p-1 duration-150  ease-in-out hover:bg-primary_hover">
+                            <Trash />
+                          </button>
+                        </td>
+                      </td>
+                    </tr>
+                  )
+                })}
           </tbody>
         </table>
       </section>
@@ -157,7 +171,7 @@ export default function Permissions() {
           <option>30</option>
         </select>
         <button
-          className={`cursor-pointer rounded-lg ${
+          className={`cursor-pointer rounded-lg p-1 duration-150 ease-in-out ${
             page === 1 ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
           onClick={() => handleChange('page', firstPage)}
@@ -166,7 +180,7 @@ export default function Permissions() {
           <ArrowLeftToLine size={20} />
         </button>
         <button
-          className={`cursor-pointer rounded-lg ${
+          className={`cursor-pointer rounded-lg p-1 duration-150 ease-in-out ${
             page === 1 ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
           disabled={page === 1}
@@ -188,7 +202,7 @@ export default function Permissions() {
                 }))
               }
               key={key}
-              className={`cursor-pointer rounded-lg px-1 font-bold hover:bg-primary_hover ${
+              className={`cursor-pointer rounded-lg p-1 font-bold duration-150  ease-in-out hover:bg-primary_hover ${
                 page === item && 'bg-primary_hover'
               }`}
             >
@@ -197,7 +211,7 @@ export default function Permissions() {
           ))}
 
         <button
-          className={`cursor-pointer rounded-lg ${
+          className={`cursor-pointer rounded-lg p-1  duration-150 ease-in-out ${
             page === totalPages ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
           onClick={() => handleChange('page', page + 1)}
@@ -207,7 +221,7 @@ export default function Permissions() {
         </button>
 
         <button
-          className={`cursor-pointer rounded-lg ${
+          className={`cursor-pointer rounded-lg p-1  duration-150 ease-in-out ${
             page === totalPages ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
           onClick={() => handleChange('page', totalPages)}
