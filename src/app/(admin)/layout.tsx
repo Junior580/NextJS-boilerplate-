@@ -1,3 +1,4 @@
+import Sidebar from '@/components/Sidebar'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -9,9 +10,14 @@ export default function AdminLayout({
   const cookieStore = cookies()
   const authToken = cookieStore.get('@auth')
 
-  if (!authToken) {
-    redirect('/signin')
-  }
+  // if (!authToken) {
+  //   redirect('/signin')
+  // }
 
-  return <>{children}</>
+  return (
+    <main className="flex h-screen flex-row bg-secondary_bg ">
+      <Sidebar />
+      <article className="h-screen w-full p-4">{children}</article>
+    </main>
+  )
 }

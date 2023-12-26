@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'http://localhost:3000',
   // baseURL: process.env.API_URL,
   withCredentials: true,
 })

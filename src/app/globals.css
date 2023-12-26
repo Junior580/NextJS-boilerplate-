@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table-body::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #0004;
+  visibility: hidden;
+}
+
+.table-body:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+
+tbody,
+tr:nth-child(even) {
+  background-color: #0000000b;
+}
+
+tbody,
+tr:hover {
+  background-color: #fff6;
+}
+
+@media (max-width: 1000px) {
+  td:not(:first-of-type) {
+    min-width: 12.1rem;
+  }
+}
