@@ -10,14 +10,21 @@ import {
   ArrowLeftToLine,
   ArrowRightToLine,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import api from '@/services/api'
+
+type PaginationProps = {
+  page: number
+  itemsPerPage: number
+  firstPage: number
+  totalPages: number
+}
 
 export default function Permissions() {
   const [data, setData] = useState<any[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
     itemsPerPage: 10,
     firstPage: 1,
@@ -26,6 +33,16 @@ export default function Permissions() {
 
   const { page, itemsPerPage, firstPage, totalPages } = pagination
 
+  const handleChange = useCallback(
+    (key: keyof PaginationProps, value: number) => {
+      setPagination((prev) => ({
+        ...prev,
+        [key]: value,
+      }))
+    },
+    [],
+  )
+
   useEffect(() => {
     setIsLoading(true)
     api
@@ -33,11 +50,7 @@ export default function Permissions() {
         `http://localhost:3000/protected?page=${page}&itemsPerPage=${itemsPerPage}`,
       )
       .then((response) => {
-        console.log(response.data.users)
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: response.data.totalPages,
-        }))
+        handleChange('totalPages', response.data.totalPages)
 
         setData(response.data.users)
         setIsLoading(false)
@@ -47,7 +60,7 @@ export default function Permissions() {
         setIsError(true)
       })
       .finally(() => setIsLoading(false))
-  }, [page, itemsPerPage])
+  }, [page, itemsPerPage, handleChange])
 
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
@@ -137,12 +150,7 @@ export default function Permissions() {
       <div className="flex justify-end gap-4 px-4 py-3">
         <select
           className="cursor-pointer rounded-lg border-none outline-none"
-          onChange={(e) =>
-            setPagination((prev) => ({
-              ...prev,
-              itemsPerPage: Number(e.target.value),
-            }))
-          }
+          onChange={(e) => handleChange('itemsPerPage', Number(e.target.value))}
         >
           <option>10</option>
           <option>20</option>
@@ -152,12 +160,7 @@ export default function Permissions() {
           className={`cursor-pointer rounded-lg ${
             page === 1 ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
-          onClick={() =>
-            setPagination((prev) => ({
-              ...prev,
-              page: firstPage,
-            }))
-          }
+          onClick={() => handleChange('page', firstPage)}
           disabled={page === 1}
         >
           <ArrowLeftToLine size={20} />
@@ -167,12 +170,7 @@ export default function Permissions() {
             page === 1 ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
           disabled={page === 1}
-          onClick={() =>
-            setPagination((prev) => ({
-              ...prev,
-              page: prev.page - 1,
-            }))
-          }
+          onClick={() => handleChange('page', page - 1)}
         >
           <ArrowLeft size={20} />
         </button>
@@ -202,12 +200,7 @@ export default function Permissions() {
           className={`cursor-pointer rounded-lg ${
             page === totalPages ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
-          onClick={() =>
-            setPagination((prev) => ({
-              ...prev,
-              page: prev.page + 1,
-            }))
-          }
+          onClick={() => handleChange('page', page + 1)}
           disabled={page === totalPages}
         >
           <ArrowRight />
@@ -217,12 +210,7 @@ export default function Permissions() {
           className={`cursor-pointer rounded-lg ${
             page === totalPages ? 'text-gray-300' : 'hover:bg-primary_hover'
           }`}
-          onClick={() =>
-            setPagination((prev) => ({
-              ...prev,
-              page: prev.totalPages,
-            }))
-          }
+          onClick={() => handleChange('page', totalPages)}
           disabled={page === totalPages}
         >
           <ArrowRightToLine size={20} />
