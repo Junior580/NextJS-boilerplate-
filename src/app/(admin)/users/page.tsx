@@ -52,9 +52,11 @@ export default function Permissions() {
   useEffect(() => {
     setIsLoading(true)
     api
-      .get(
-        `http://localhost:3000/protected?page=${page}&itemsPerPage=${itemsPerPage}`,
-      )
+      .get(`/list-user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         handleChange('totalPages', response.data.totalPages)
 
@@ -67,6 +69,14 @@ export default function Permissions() {
       })
       .finally(() => setIsLoading(false))
   }, [page, itemsPerPage, handleChange])
+
+  if (isError) {
+    return (
+      <p className="font-bold text-red-400 shadow-2xl">
+        Error ao obter os dados
+      </p>
+    )
+  }
 
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
@@ -158,7 +168,6 @@ export default function Permissions() {
         </table>
       </section>
 
-      {isError && <p className="text-red-600">Error ao obter os dados</p>}
       {isLoading && <p className="text-green-600">Carregando...</p>}
 
       <div className="flex justify-end gap-4 px-4 py-3">

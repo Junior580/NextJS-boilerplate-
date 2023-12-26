@@ -9,7 +9,7 @@ import {
   ArrowRight,
   ArrowLeft,
   Users,
-  UnlockIcon,
+  Unlock,
 } from 'lucide-react'
 import useToggle from '@/hooks/useToggle'
 import api from '@/services/api'
@@ -70,40 +70,36 @@ export default function Sidebar() {
         </button>
 
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
-          <div className="flex py-1  text-primary  duration-150 ease-in-out hover:text-primary_hover ">
-            <Users className="ml-4" />
-            {sidebar && (
-              <Link href="/users" className="ml-4 hidden shadow-2xl md:block">
-                Users
-              </Link>
-            )}
-          </div>
-          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
-            <UnlockIcon className="ml-4" />
-            {sidebar && (
-              <Link href="/permissions" className="ml-4 hidden md:block">
-                Permissions
-              </Link>
-            )}
-          </div>
-          <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
-            <ClipboardCopy className="ml-4" />
-            {sidebar && (
-              <Link href="*" className="ml-4 hidden md:block">
-                Implementar
-              </Link>
-            )}
-          </div>
-          <a href="">
+          <Link href="/users">
+            <div className="flex py-1  text-primary  duration-150 ease-in-out hover:text-primary_hover ">
+              <Users className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden shadow-2xl md:block">Users</p>
+              )}
+            </div>
+          </Link>
+          <Link href="/permissions">
+            <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
+              <Unlock className="ml-4" />
+              {sidebar && <p className="ml-4 hidden md:block">Permissions</p>}
+            </div>
+          </Link>
+          <Link href="">
+            <div className="flex py-1  text-primary duration-150 ease-in-out hover:text-primary_hover">
+              <ClipboardCopy className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden md:block">Lista de produtos</p>
+              )}
+            </div>
+          </Link>
+          <Link href="">
             <div className="flex py-1   text-green-600 duration-150 ease-in-out hover:text-green-400">
               <ClipboardEdit className="ml-4" />
               {sidebar && (
-                <Link href="*" className="ml-4 hidden md:block">
-                  Implementar
-                </Link>
+                <p className="ml-4 hidden md:block">Lista de serviços</p>
               )}
             </div>
-          </a>
+          </Link>
         </ul>
 
         <button
