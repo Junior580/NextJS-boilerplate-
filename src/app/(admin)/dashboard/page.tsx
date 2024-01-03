@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 export default function Dashboard() {
   return (
     <main className="flex flex-col gap-4 rounded-md bg-white p-5 ">
-      <h1 className="font-bold">Users:</h1>
+      <h1 className="font-bold">Dashboard:</h1>
 
       <table className="w-full overflow-x-auto rounded-md">
         <thead>
@@ -92,7 +92,7 @@ export default function Dashboard() {
       </table>
 
       <div className="flex  w-48 gap-4 self-end">
-        <Button name="Voltar" secondary />
+        <Button name="Voltar" color="secondary" />
 
         <Button name="Criar" />
       </div>

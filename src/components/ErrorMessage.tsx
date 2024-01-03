@@ -4,7 +4,7 @@ type ErrorProps = {
 
 export default function ErrorMessage({ message }: ErrorProps) {
   return (
-    <p className="bg-transparent text-center font-bold text-red-600">
+    <p className="whitespace-pre bg-transparent text-center font-bold text-red-600">
       {message}
     </p>
   )
