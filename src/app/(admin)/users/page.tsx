@@ -8,7 +8,9 @@ import ErrorMessage from '@/components/ErrorMessage'
 import { ItemsEntity, UsersData } from './users.interface'
 import useToggle from '@/hooks/useToggle'
 import Modal from '@/components/Modal'
-import PaginationControl from '@/components/PaginationControl'
+import PaginationCoxntrol from '@/components/PaginationControl'
+import Table from '@/components/Table'
+import { Button } from '@/components/Button/index'
 
 type PaginationProps = {
   page: number
@@ -18,63 +20,62 @@ type PaginationProps = {
 }
 
 export default function Permissions() {
-  const [data, setData] = useState<ItemsEntity[]>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
+  // const [data, setData] = useState<ItemsEntity[]>([])
+  // const [isLoading, setIsLoading] = useState<boolean>(false)
+  // const [isError, setIsError] = useState<boolean>(false)
+  // const [modalOpen, toggleModalOpen] = useToggle(false)
+  // const [searchFilter, setSearchFilter] = useState<string>('')
 
-  const [modalOpen, toggleModalOpen] = useToggle(false)
-  const [searchFilter, setSearchFilter] = useState<string>('')
+  // const [pagination, setPagination] = useState<PaginationProps>({
+  //   page: 1,
+  //   itemsPerPage: 10,
+  //   currentPage: 1,
+  //   lastPage: 0,
+  // })
 
-  const [pagination, setPagination] = useState<PaginationProps>({
-    page: 1,
-    itemsPerPage: 10,
-    currentPage: 1,
-    lastPage: 0,
-  })
+  // const { page, itemsPerPage, currentPage, lastPage } = pagination
 
-  const { page, itemsPerPage, currentPage, lastPage } = pagination
+  // const handleChange = useCallback(
+  //   (key: keyof PaginationProps, value: number) => {
+  //     setPagination((prev) => ({
+  //       ...prev,
+  //       [key]: value,
+  //     }))
+  //   },
+  //   [],
+  // )
 
-  const handleChange = useCallback(
-    (key: keyof PaginationProps, value: number) => {
-      setPagination((prev) => ({
-        ...prev,
-        [key]: value,
-      }))
-    },
-    [],
-  )
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   api
+  //     .get<UsersData>(
+  //       `/list-user?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
+  //     )
+  //     .then((response) => {
+  //       handleChange('lastPage', response.data.lastPage)
+  //       setData(response.data.items as any)
+  //       setIsLoading(false)
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false)
+  //       setIsError(true)
+  //     })
+  //     .finally(() => setIsLoading(false))
+  // }, [page, itemsPerPage, handleChange, searchFilter])
 
-  useEffect(() => {
-    setIsLoading(true)
-    api
-      .get<UsersData>(
-        `/list-user?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
-      )
-      .then((response) => {
-        handleChange('lastPage', response.data.lastPage)
-        setData(response.data.items as any)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        setIsLoading(false)
-        setIsError(true)
-      })
-      .finally(() => setIsLoading(false))
-  }, [page, itemsPerPage, handleChange, searchFilter])
-
-  if (isError) {
-    return (
-      <p className="font-bold text-red-400 shadow-2xl">
-        Error ao obter os dados
-      </p>
-    )
-  }
+  // if (isError) {
+  //   return (
+  //     <p className="font-bold text-red-400 shadow-2xl">
+  //       Error ao obter os dados
+  //     </p>
+  //   )
+  // }
 
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
-      {isError && <ErrorMessage message="Error" />}
+      {/* {isError && <ErrorMessage message="Error" />} */}
 
-      {modalOpen && (
+      {/* {modalOpen && (
         <Modal
           isOpen={modalOpen}
           close={toggleModalOpen}
@@ -83,9 +84,9 @@ export default function Permissions() {
             email: 'data.items[key].email',
           }}
         />
-      )}
+      )} */}
 
-      <section className="flex w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
+      {/* <section className="flex w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
         <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-t1 px-3 duration-300 ease-in-out hover:w-64">
           <input
@@ -97,9 +98,9 @@ export default function Permissions() {
           />
           <Search />
         </div>
-      </section>
-      <section className="table-body mx-auto my-3 h-4/5 w-full overflow-auto rounded-xl  bg-t2">
-        <table className=" w-full">
+      </section> */}
+      {/* <section className="table-body mx-auto my-3 h-4/5 w-full overflow-auto rounded-xl  bg-t2"> */}
+      {/* <table className=" w-full">
           <thead className="sticky left-0 top-0 border-collapse bg-secondary">
             <tr>
               <th className="sticky left-0 top-0 border-collapse bg-secondary p-4">
@@ -157,7 +158,6 @@ export default function Permissions() {
                         {item.createdAt}
                       </td>
                       <td className="max-w-[10px] border-collapse whitespace-nowrap text-center">
-                        {/* <td>{item.status}</td> */}
                         Active user
                       </td>
                       <td className="max-w-[120px] border-collapse overflow-scroll whitespace-nowrap text-center">
@@ -181,15 +181,30 @@ export default function Permissions() {
                 )
               })}
           </tbody>
-        </table>
-      </section>
+        </table> */}
 
-      <PaginationControl
+      {/* <Table data={data} /> */}
+      {/* </section> */}
+
+      <div className="flex flex-col items-center gap-2 bg-gray-300 p-2">
+        <h1>Button Pattern Composition</h1>
+        <Button.Root color="secondary" size="lg">
+          {' '}
+          teste1
+        </Button.Root>
+        <Button.Root color="neutral" size="md">
+          teste2
+        </Button.Root>
+
+        <Button.Root size="sm">teste3</Button.Root>
+      </div>
+
+      {/* <PaginationControl
         currentPage={currentPage}
         lastPage={lastPage}
         page={page}
         handleChange={handleChange}
-      />
+      /> */}
     </main>
   )
 }

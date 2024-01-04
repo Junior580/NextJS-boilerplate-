@@ -23,7 +23,23 @@ const config: Config = {
         t1: '#fff4',
         t2: '#fffb',
         t3: '#fff5',
+
+        buttonDefault: '#0B5FFF',
+        buttonDefaultHover: '#0053F0',
+        buttonDefaultActive: '#004AD7',
+        buttonDefaultDisabled: '#0B5FFF80',
+
+        buttonSecondary: '#19AB4F',
+        buttonSecondaryHover: '#0C9E42',
+        buttonSecondaryActive: '#009236',
+        buttonSecondaryDisabled: '#19AB4F80',
+
+        buttonNeutral: '#9098A1',
+        buttonNeutralHover: '#858C94',
+        buttonNeutralActive: '#798087',
+        buttonNeutralDisabled: '#9098A1B2',
       },
+
       boxShadow: {
         '3xl': '0 0.4rem 0.8rem  #0005',
       },

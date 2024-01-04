@@ -11,7 +11,7 @@ const buttonStyle = tv({
     },
   },
   defaultVariants: {
-    color: 'primary',
+    color: 'secondary',
   },
 })
 

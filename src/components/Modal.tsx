@@ -5,7 +5,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from 'react-query'
 import api from '@/services/api'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 const SignUpSchema = z.object({
   name: z.string().min(5),
@@ -63,7 +63,7 @@ export default function Modal({ isOpen, close, user }: ModalProps) {
                   placeholder="Name"
                   onChange={onChange}
                   value={value}
-                  error={errors.email}
+                  error={errors.name}
                 />
               )}
             />
