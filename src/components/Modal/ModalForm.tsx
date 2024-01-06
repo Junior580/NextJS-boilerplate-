@@ -5,6 +5,7 @@ import z from 'zod'
 import { useCallback } from 'react'
 import { useMutation } from 'react-query'
 import api from '@/services/api'
+import Button from '../Button'
 
 const SignUpSchema = z.object({
   name: z.string().min(5),
@@ -14,12 +15,12 @@ const SignUpSchema = z.object({
 type SignUpType = z.infer<typeof SignUpSchema>
 
 type ModalProps = {
-  onSubmitClick: () => void
+  close: () => void
   user: SignUpType
   title: string
 }
 
-export default function ModalForm({ title, user, onSubmitClick }: ModalProps) {
+export default function ModalForm({ title, user, close }: ModalProps) {
   const {
     control,
     handleSubmit,
@@ -40,41 +41,52 @@ export default function ModalForm({ title, user, onSubmitClick }: ModalProps) {
   })
 
   const onSubmit: SubmitHandler<SignUpType> = useCallback(
-    async (data) => mutate(data),
+    async (data) => {
+      console.log(`Submited`)
+      mutate(data)
+    },
     [mutate],
   )
   return (
-    <form
-      onSubmit={handleSubmit(onSubmitClick)}
-      className="flex w-full flex-col  items-center justify-between gap-8  bg-gray-500 "
-    >
-      <h1 className="text-lg font-bold">{title}</h1>
+    <div className="flex w-[500px] flex-col  items-center justify-between gap-8 rounded-lg bg-gray-500 p-4 shadow-3xl">
+      <form
+        // onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col  items-center justify-between gap-8  bg-gray-500 "
+      >
+        <h1 className="text-lg font-bold">{title}</h1>
 
-      <Controller
-        control={control}
-        name="name"
-        render={({ field: { onChange, value } }) => (
-          <Input
-            placeholder="Name"
-            onChange={onChange}
-            value={value}
-            error={errors.name}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              placeholder="Name"
+              onChange={onChange}
+              value={value}
+              error={errors.name}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { onChange, value } }) => (
-          <Input
-            placeholder="E-mail"
-            onChange={onChange}
-            value={value}
-            error={errors.email}
-          />
-        )}
-      />
-    </form>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              placeholder="E-mail"
+              onChange={onChange}
+              value={value}
+              error={errors.email}
+            />
+          )}
+        />
+      </form>
+
+      <div className="flex w-full gap-2">
+        <Button onSubmit={handleSubmit(onSubmit)} name="Atualizar" />
+
+        <Button onClick={close} name="Fechar" />
+      </div>
+    </div>
   )
 }

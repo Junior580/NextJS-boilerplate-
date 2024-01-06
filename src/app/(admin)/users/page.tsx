@@ -216,14 +216,9 @@ export default function Permissions() {
           <LoadingMessage.Content />
         </LoadingMessage.Root>
 
-        <Modal.Root
-          close={toggleModalOpen}
-          isOpen={modalOpen}
-          executeButton={teste}
-          executeButtonTitle="Enviar"
-        >
+        <Modal.Root isOpen={modalOpen}>
           <Modal.Form
-            onSubmitClick={teste}
+            close={toggleModalOpen}
             title="Editar"
             user={{ email: 'user1@email.com', name: 'user1' }}
           />
