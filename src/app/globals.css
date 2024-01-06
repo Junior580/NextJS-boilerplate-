@@ -32,3 +32,7 @@ tr:hover {
     min-width: 12.1rem;
   }
 }
+
+.backdrop-filter {
+  backdrop-filter: blur(10px);
+}

@@ -4,13 +4,17 @@ import Image from 'next/image'
 import { Search, FileEdit, Trash } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import api from '@/services/api'
-import ErrorMessage from '@/components/ErrorMessage'
+import { ErrorMessage } from '@/components/ErrorMessage/index'
 import { ItemsEntity, UsersData } from './users.interface'
 import useToggle from '@/hooks/useToggle'
-import Modal from '@/components/Modal'
+// import Modal from '@/components/Modal'
 import PaginationCoxntrol from '@/components/PaginationControl'
 import Table from '@/components/Table'
 import { Button } from '@/components/Button/index'
+import { Input } from '@/components/Input/index'
+import { FieldError } from 'react-hook-form'
+import { LoadingMessage } from '@/components/LoadingMessage/index'
+import { Modal } from '@/components/Modal/index'
 
 type PaginationProps = {
   page: number
@@ -20,6 +24,8 @@ type PaginationProps = {
 }
 
 export default function Permissions() {
+  const [modalOpen, toggleModalOpen] = useToggle(false)
+
   // const [data, setData] = useState<ItemsEntity[]>([])
   // const [isLoading, setIsLoading] = useState<boolean>(false)
   // const [isError, setIsError] = useState<boolean>(false)
@@ -70,6 +76,10 @@ export default function Permissions() {
   //     </p>
   //   )
   // }
+
+  const teste = () => {
+    console.log('botao clicado, e item enviado')
+  }
 
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
@@ -188,15 +198,36 @@ export default function Permissions() {
 
       <div className="flex flex-col items-center gap-2 bg-gray-300 p-2">
         <h1>Button Pattern Composition</h1>
-        <Button.Root color="secondary" size="lg">
-          {' '}
-          teste1
-        </Button.Root>
-        <Button.Root color="neutral" size="md">
-          teste2
+        <Button.Root color="secondary" size="lg" onClick={toggleModalOpen}>
+          <Button.Content text="Testo" size="lg" />
         </Button.Root>
 
-        <Button.Root size="sm">teste3</Button.Root>
+        <Input.Root error={undefined}>
+          <Input.Icon icon={Search} />
+        </Input.Root>
+
+        <ErrorMessage.Root>
+          <ErrorMessage.Icon icon={Search} />
+          <ErrorMessage.Content />
+        </ErrorMessage.Root>
+
+        <LoadingMessage.Root>
+          <LoadingMessage.Icon icon={Search} />
+          <LoadingMessage.Content />
+        </LoadingMessage.Root>
+
+        <Modal.Root
+          close={toggleModalOpen}
+          isOpen={modalOpen}
+          executeButton={teste}
+          executeButtonTitle="Enviar"
+        >
+          <Modal.Form
+            onSubmitClick={teste}
+            title="Editar"
+            user={{ email: 'user1@email.com', name: 'user1' }}
+          />
+        </Modal.Root>
       </div>
 
       {/* <PaginationControl

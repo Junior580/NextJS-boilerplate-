@@ -2,11 +2,8 @@ import { ComponentProps, ReactNode } from 'react'
 import { tv, VariantProps } from 'tailwind-variants'
 
 const buttonStyle = tv({
-  base: 'rounded-lg',
+  base: 'rounded-lg flex items-center gap-2 justify-center',
   variants: {
-    default: {
-      primaryLg: '',
-    },
     size: {
       sm: 'h-9 w-24 px-3 py-2',
       md: 'h-12 w-32 px-4 py-3',
@@ -32,6 +29,15 @@ type ButtonProps = ComponentProps<'button'> &
     children: ReactNode
   }
 
-export default function ButtonRoot({ children, color, size }: ButtonProps) {
-  return <button className={buttonStyle({ color, size })}>{children}</button>
+export default function ButtonRoot({
+  children,
+  color,
+  size,
+  ...props
+}: ButtonProps) {
+  return (
+    <button className={buttonStyle({ color, size })} {...props}>
+      {children}
+    </button>
+  )
 }
