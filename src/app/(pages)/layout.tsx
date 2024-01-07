@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navbar from '@/components/Navbar'
+import { Navbar } from '@/components/Navbar/index'
+import { PlusCircle } from 'lucide-react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,10 @@ export default function PagesLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-        <Navbar />
+        <Navbar.Root>
+          <Navbar.Title title="Meu App" icon={PlusCircle} />
+          <Navbar.Options />
+        </Navbar.Root>
         {children}
       </body>
     </html>
