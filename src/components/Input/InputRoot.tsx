@@ -11,7 +11,7 @@ import { AlertCircle, Search } from 'lucide-react'
 import InputTooltip from './InputTooltip'
 
 const inputStyle = tv({
-  base: 'flex items-center w-full rounded-lg border-2 border-solid  bg-gray-800 p-4 text-zinc-300 data-[iserror=true]:border-red-600 data-[isfocused=true]:border-primary data-[isfilled=true]:text-primary data-[isfocused=true]:text-white',
+  base: 'flex items-center relative w-full rounded-lg border-2 border-solid  bg-gray-800 p-4 text-zinc-300 data-[iserror=true]:border-red-600 data-[isfocused=true]:border-primary data-[isfilled=true]:text-primary data-[isfocused=true]:text-white',
   variants: {},
 })
 
@@ -43,6 +43,7 @@ export default function InputRoot({ children, error, ...props }: InputProps) {
       className={inputStyle({})}
     >
       {children}
+
       <input
         className="flex-1
         border-0 bg-inherit

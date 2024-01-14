@@ -6,5 +6,4 @@ export const Navbar = {
   Root: NavbarRoot,
   Title: NavbarTitle,
   Options: NavbarOptions,
-  // Form: NavbarForm,
 }
