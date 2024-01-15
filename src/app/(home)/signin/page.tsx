@@ -4,12 +4,13 @@ import { useCallback } from 'react'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@/components/Button'
-import Input from '@/components/Input'
+import { Input } from '@/components/Input/index'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
 import ErrorMessage from '@/components/ErrorMessage'
+import { Select } from '@/components/Select'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -58,7 +59,7 @@ export default function SignIn() {
             control={control}
             name="email"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <Input.Root
                 placeholder="E-mail"
                 onChange={onChange}
                 value={value}
@@ -71,7 +72,7 @@ export default function SignIn() {
             control={control}
             name="password"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <Input.Root
                 type="password"
                 placeholder="Senha"
                 onChange={onChange}
