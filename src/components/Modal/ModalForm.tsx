@@ -6,12 +6,13 @@ import { useCallback } from 'react'
 import { useMutation } from 'react-query'
 import api from '@/services/api'
 import Button from '../Button'
+import { Select } from '../Select'
 
 const SignUpSchema = z.object({
   name: z.string().min(5),
   email: z.string().email(),
   emailVerified: z.string(),
-  isTwoFactorEnabled: z.string(),
+  isTwoFactorEnabled: z.boolean(),
   role: z.string(),
 })
 
@@ -38,8 +39,6 @@ export default function ModalForm({ user, close }: ModalProps) {
     },
   })
 
-  console.log(`🔥 ~ modalForm ~${JSON.stringify(user)}`)
-
   const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: async (data: SignUpType) => {
       return api.post('/updateuser', data)
@@ -47,17 +46,28 @@ export default function ModalForm({ user, close }: ModalProps) {
     onSuccess: () => close(),
   })
 
+  console.log(
+    `🔥 ~ Error submit ~ ${JSON.stringify(error)}  ${JSON.stringify(isError)}`,
+  )
+
   const onSubmit: SubmitHandler<SignUpType> = useCallback(
     async (data) => {
-      console.log(`Submited`)
+      console.log(`🔥 ~ Submited ${JSON.stringify(data)}`)
       mutate(data)
     },
     [mutate],
   )
+
+  // get options
+  const roleOptions = ['USER', 'ADMIN']
+
   return (
-    <div className="flex w-[500px] flex-col  items-center justify-between gap-8 rounded-lg bg-gray-500 p-4 shadow-3xl">
+    <div
+      data-iserror={isError}
+      className="flex w-[500px] flex-col  items-center justify-between gap-8 rounded-lg bg-gray-500 p-4 shadow-3xl data-[iserror=true]:border-2 data-[iserror=true]:border-solid data-[iserror=true]:border-red-600"
+    >
       <form
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col  items-center justify-between gap-8  bg-gray-500 "
       >
         <h1 className="text-lg font-bold">Editar informações</h1>
@@ -116,10 +126,14 @@ export default function ModalForm({ user, close }: ModalProps) {
             <div className="w-full text-white">
               <label className="ml-1">Two Factor Auth: </label>
 
-              <select value={JSON.parse(value)} onChange={onChange}>
+              <Select.Root
+                error={errors.isTwoFactorEnabled}
+                value={String(value)}
+                onChange={(e) => onChange(e.target.value === 'true')}
+              >
                 <option value={'true'}>Sim</option>
                 <option value={'false'}>Não</option>
-              </select>
+              </Select.Root>
             </div>
           )}
         />
@@ -130,22 +144,30 @@ export default function ModalForm({ user, close }: ModalProps) {
           render={({ field: { onChange, value } }) => (
             <div className="w-full text-white">
               <label className="ml-1">Permission: </label>
-              <Input.Root
-                placeholder="Permission"
+              <Select.Root
                 onChange={onChange}
                 value={value}
                 error={errors.emailVerified}
-              />
+              >
+                {roleOptions.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Select.Root>
             </div>
           )}
         />
+
+        <div className="flex w-full gap-2">
+          <Button type="submit" name="Atualizar" isLoading={isLoading} />
+
+          <Button onClick={close} name="Fechar" />
+        </div>
       </form>
-
-      <div className="flex w-full gap-2">
-        <Button onSubmit={handleSubmit(onSubmit)} name="Atualizar" />
-
-        <Button onClick={close} name="Fechar" />
-      </div>
+      {isError && (
+        <p className="font-bold text-red-500">Error ao enviar dados</p>
+      )}
     </div>
   )
 }

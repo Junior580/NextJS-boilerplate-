@@ -18,7 +18,7 @@ const inputStyle = tv({
 interface SelectProps
   extends ComponentProps<'select'>,
     VariantProps<typeof inputStyle> {
-  children?: ReactNode
+  children: ReactNode
   error: FieldError | undefined
 }
 
