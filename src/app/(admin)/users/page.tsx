@@ -2,21 +2,12 @@
 
 import Image from 'next/image'
 import { Search, FileEdit, Trash } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
-import api from '@/services/api'
-import { ErrorMessage } from '@/components/ErrorMessage/index'
-import { ItemsEntity, UsersData } from './users.interface'
+import { useCallback, useState } from 'react'
 import useToggle from '@/hooks/useToggle'
-// import Modal from '@/components/Modal'
-import PaginationCoxntrol from '@/components/PaginationControl'
-import Table from '@/components/Table'
-import { Button } from '@/components/Button/index'
-import { Input } from '@/components/Input/index'
-import { FieldError } from 'react-hook-form'
-import { LoadingMessage } from '@/components/LoadingMessage/index'
 import { Modal } from '@/components/Modal/index'
 import PaginationControl from '@/components/PaginationControl'
-import ModalForm from '@/components/Modal/ModalForm'
+import { useQuery } from 'react-query'
+import { ItemsEntity, getUsers } from '@/services/getUsers'
 
 type PaginationProps = {
   page: number
@@ -27,10 +18,6 @@ type PaginationProps = {
 
 export default function Permissions() {
   const [modalOpen, toggleModalOpen] = useToggle(false)
-
-  const [data, setData] = useState<ItemsEntity[] | null>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -68,23 +55,11 @@ export default function Permissions() {
     toggleModalOpen()
   }
 
-  useEffect(() => {
-    setIsLoading(true)
-    api
-      .get<UsersData>(
-        `/list-user?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
-      )
-      .then((response) => {
-        handleChange('lastPage', response.data.lastPage)
-        setData(response.data.items)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        setIsLoading(false)
-        setIsError(true)
-      })
-      .finally(() => setIsLoading(false))
-  }, [page, itemsPerPage, handleChange, searchFilter])
+  const { data, isError, isLoading } = useQuery(
+    'user-list',
+    () => getUsers({ itemsPerPage, page, searchFilter }),
+    { keepPreviousData: true, staleTime: 5000 },
+  )
 
   if (isError) {
     return (
@@ -103,9 +78,9 @@ export default function Permissions() {
           <Modal.Form
             close={toggleModalOpen}
             user={{
+              id: selectedUserData.id,
               name: selectedUserData?.name,
               email: selectedUserData?.email,
-              emailVerified: formatDate(selectedUserData?.emailVerified),
               isTwoFactorEnabled: selectedUserData.isTwoFactorEnabled,
               role: selectedUserData.role,
             }}
@@ -172,7 +147,7 @@ export default function Permissions() {
                         {item.id.substring(0, 10)}...
                       </td>
                       <td>
-                        <td className="flex items-center justify-center px-2">
+                        <td className="flex items-center justify-start px-2">
                           <Image
                             src="https://avatars.githubusercontent.com/u/93562736?v=4"
                             alt={'username'}

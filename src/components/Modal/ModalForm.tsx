@@ -3,15 +3,15 @@ import { Input } from '../Input/index'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import z from 'zod'
 import { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import api from '@/services/api'
 import Button from '../Button'
 import { Select } from '../Select'
 
 const SignUpSchema = z.object({
+  id: z.string(),
   name: z.string().min(5),
   email: z.string().email(),
-  emailVerified: z.string(),
   isTwoFactorEnabled: z.boolean(),
   role: z.string(),
 })
@@ -31,24 +31,25 @@ export default function ModalForm({ user, close }: ModalProps) {
   } = useForm<SignUpType>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
+      id: user.id,
       name: user.name,
       email: user.email,
-      emailVerified: user.emailVerified,
       isTwoFactorEnabled: user.isTwoFactorEnabled,
       role: user.role,
     },
   })
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: async (data: SignUpType) => {
-      return api.post('/updateuser', data)
-    },
-    onSuccess: () => close(),
-  })
+  const queryClient = useQueryClient()
 
-  console.log(
-    `🔥 ~ Error submit ~ ${JSON.stringify(error)}  ${JSON.stringify(isError)}`,
-  )
+  const { mutate, isLoading, isError } = useMutation({
+    mutationFn: async (data: SignUpType) => {
+      return api.post('/update-user', data)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries('user-list')
+      close()
+    },
+  })
 
   const onSubmit: SubmitHandler<SignUpType> = useCallback(
     async (data) => {
@@ -105,22 +106,6 @@ export default function ModalForm({ user, close }: ModalProps) {
 
         <Controller
           control={control}
-          name="emailVerified"
-          render={({ field: { onChange, value } }) => (
-            <div className="w-full text-white">
-              <label className="ml-1">Verifed E-mail: </label>
-              <Input.Root
-                placeholder="Verifed E-mail"
-                onChange={onChange}
-                value={value}
-                error={errors.emailVerified}
-              />
-            </div>
-          )}
-        />
-
-        <Controller
-          control={control}
           name="isTwoFactorEnabled"
           render={({ field: { onChange, value } }) => (
             <div className="w-full text-white">
@@ -130,6 +115,7 @@ export default function ModalForm({ user, close }: ModalProps) {
                 error={errors.isTwoFactorEnabled}
                 value={String(value)}
                 onChange={(e) => onChange(e.target.value === 'true')}
+                defaultValue={user.isTwoFactorEnabled ? 'true' : 'false'}
               >
                 <option value={'true'}>Sim</option>
                 <option value={'false'}>Não</option>
@@ -147,7 +133,8 @@ export default function ModalForm({ user, close }: ModalProps) {
               <Select.Root
                 onChange={onChange}
                 value={value}
-                error={errors.emailVerified}
+                error={errors.role}
+                defaultValue={user.role}
               >
                 {roleOptions.map((item) => (
                   <option key={item} value={item}>

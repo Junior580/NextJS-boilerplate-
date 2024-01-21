@@ -18,8 +18,6 @@ export default function Table<T extends Record<string, any>>({
   // const dataTable = useMemo(() => data, [data])
   const [dataTable, setDataTable] = useState<any[]>([])
 
-  console.log(`🚀 ~ Table ~ line: 21 ~ ${data}`)
-
   let keys: string[] = []
   useEffect(() => {
     setDataTable(data)
