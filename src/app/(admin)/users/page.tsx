@@ -8,6 +8,8 @@ import { Modal } from '@/components/Modal/index'
 import PaginationControl from '@/components/PaginationControl'
 import { useQuery } from 'react-query'
 import { ItemsEntity, getUsers } from '@/services/getUsers'
+import { Table, TableBody, TableCell } from '@/components/ui/table'
+import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 type PaginationProps = {
   page: number
@@ -70,7 +72,7 @@ export default function Permissions() {
   }
 
   return (
-    <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
+    <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 text-left">
       {selectedUserData && (
         <Modal.Root isOpen={modalOpen}>
           <Modal.Form
@@ -86,9 +88,9 @@ export default function Permissions() {
         </Modal.Root>
       )}
 
-      <section className="flex w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
+      <section className="bg-t1 flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
-        <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-t1 px-3 duration-300 ease-in-out hover:w-64">
+        <div className="bg-t1 flex h-full w-52 items-center justify-center rounded-3xl px-3 duration-300 ease-in-out hover:w-64">
           <input
             type="search"
             placeholder="Search Data..."
@@ -99,8 +101,8 @@ export default function Permissions() {
           <Search />
         </div>
       </section>
-      <section className="table-body mx-auto my-3 h-4/5 w-full overflow-auto rounded-xl  bg-t2">
-        <table className=" w-full">
+      <section className="table-body bg-t2 mx-auto my-3 h-4/5 w-full overflow-auto  rounded-xl">
+        {/* <table className=" w-full">
           <thead className=" left-0 top-0 border-collapse bg-secondary">
             <tr>
               <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
@@ -183,12 +185,12 @@ export default function Permissions() {
                       <td className="border-collapse whitespace-nowrap p-4 text-center">
                         <td className="flex items-center justify-center">
                           <button
-                            className="cursor-pointer rounded-lg p-1 duration-150  ease-in-out hover:bg-primary_hover"
+                            className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"
                             onClick={() => handleEditClick(item)}
                           >
                             <FileEdit />
                           </button>
-                          <button className="cursor-pointer rounded-lg p-1 duration-150  ease-in-out hover:bg-primary_hover">
+                          <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
                             <Trash />
                           </button>
                         </td>
@@ -198,9 +200,49 @@ export default function Permissions() {
                 )
               })}
           </tbody>
-        </table>
+        </table> */}
 
-        {/* <Table data={data} /> */}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Id</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>E-mail</TableHead>
+              <TableHead>Password</TableHead>
+              <TableHead>Two Factor Auth</TableHead>
+              <TableHead>Verified E-mail</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Created At</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {data?.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.id}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell>{item.password}</TableCell>
+                <TableCell>{item.isTwoFactorEnabled ? 'Sim' : 'Não'}</TableCell>
+                <TableCell>{item.emailVerified ? 'Sim' : 'Não'}</TableCell>
+                <TableCell>{item.role}</TableCell>
+                <TableCell>{item.createdAt}</TableCell>
+                <TableCell className="flex items-center justify-center">
+                  <button
+                    className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"
+                    onClick={() => handleEditClick(item)}
+                  >
+                    <FileEdit />
+                  </button>
+                  <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                    <Trash />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </section>
 
       <PaginationControl
