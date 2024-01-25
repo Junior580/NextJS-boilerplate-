@@ -6,7 +6,7 @@ type GetUserProps = {
   searchFilter: string
 }
 
-type ItemsEntity = {
+export type ItemsEntity = {
   id: string
   image: string
   name: string

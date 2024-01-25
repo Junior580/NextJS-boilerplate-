@@ -10,10 +10,10 @@ import { Select } from '../Select'
 
 const SignUpSchema = z.object({
   id: z.string(),
-  name: z.string().min(5),
-  email: z.string().email(),
-  isTwoFactorEnabled: z.boolean(),
-  role: z.string(),
+  name: z.string().min(5).optional(),
+  email: z.string().email().optional(),
+  isTwoFactorEnabled: z.boolean().optional(),
+  role: z.string().optional(),
 })
 
 type SignUpType = z.infer<typeof SignUpSchema>
@@ -41,9 +41,15 @@ export default function ModalForm({ user, close }: ModalProps) {
 
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading, isError } = useMutation({
+  const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: async (data: SignUpType) => {
-      return api.post('/update-user', data)
+      console.log(`useMutation ~ submited ${JSON.stringify(data)}`)
+      try {
+        const post = await api.post('/update-user', data)
+        return post
+      } catch (error) {
+        throw error
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries('user-list')
@@ -51,12 +57,34 @@ export default function ModalForm({ user, close }: ModalProps) {
     },
   })
 
+  console.log(`🔥 ~ error useMutation: ${error}`)
+
   const onSubmit: SubmitHandler<SignUpType> = useCallback(
     async (data) => {
+      const propertiesToRemove: Array<keyof SignUpType> = []
+
+      if (data.name === user.name) {
+        propertiesToRemove.push('name')
+      }
+
+      if (data.email === user.email) {
+        propertiesToRemove.push('email')
+      }
+
+      if (data.isTwoFactorEnabled === user.isTwoFactorEnabled) {
+        propertiesToRemove.push('isTwoFactorEnabled')
+      }
+
+      if (data.role === user.role) {
+        propertiesToRemove.push('role')
+      }
+
+      propertiesToRemove.forEach((property) => delete data[property])
+
       console.log(`🔥 ~ Submited ${JSON.stringify(data)}`)
-      mutate(data)
+      return mutate(data)
     },
-    [mutate],
+    [mutate, user],
   )
 
   // get options
@@ -152,8 +180,11 @@ export default function ModalForm({ user, close }: ModalProps) {
           <Button onClick={close} name="Fechar" />
         </div>
       </form>
-      {isError && (
+      {/* {isError && (
         <p className="font-bold text-red-500">Error ao enviar dados</p>
+      )} */}
+      {error === 'Error: "Email already in use!"' && (
+        <p className="font-bold text-red-500">Error ao enviaraa dados</p>
       )}
     </div>
   )

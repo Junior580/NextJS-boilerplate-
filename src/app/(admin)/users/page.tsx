@@ -71,8 +71,6 @@ export default function Permissions() {
 
   return (
     <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
-      {isError && <p>bumbum</p>}
-
       {selectedUserData && (
         <Modal.Root isOpen={modalOpen}>
           <Modal.Form

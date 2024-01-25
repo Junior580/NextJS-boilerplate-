@@ -1,6 +1,6 @@
 import useToggle from '@/hooks/useToggle'
 import { FileEdit, Trash } from 'lucide-react'
-import { ComponentProps, useEffect, useMemo, useRef, useState } from 'react'
+import { ComponentProps, useEffect, useState } from 'react'
 import Modal from './Modal'
 
 type TableProps<T> = ComponentProps<'table'> & {

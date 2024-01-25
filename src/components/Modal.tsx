@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import Button from './Button'
-import Input from './Input'
+import { Input } from './Input/index'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from 'react-query'

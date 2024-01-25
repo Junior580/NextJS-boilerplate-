@@ -54,7 +54,7 @@ export default function InputRoot({ children, error, ...props }: InputProps) {
       />
 
       {!!error && (
-        <InputTooltip title={error.message as string}>
+        <InputTooltip title={`${JSON.stringify(error.message)}`}>
           <AlertCircle color="#c53030" size={20} className="m-0" />
         </InputTooltip>
       )}

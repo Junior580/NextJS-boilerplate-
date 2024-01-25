@@ -1,8 +1,18 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "prettier"
   ],
-  "plugins": ["@tanstack/query"],
+  "plugins": ["@tanstack/query", "tailwindcss"],
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn", "cva"],
+      "config": "tailwind.config.cjs"
+    },
+    "next": {
+      "rootDir": ["apps/*/"]
+    }
+  },
   "rules": {}
 }
