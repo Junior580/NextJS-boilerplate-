@@ -2,23 +2,30 @@
 
 import { Search, FileEdit, Trash } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import useToggle from '@/hooks/useToggle'
-import { Modal } from '@/components/Modal/index'
 import PaginationControl from '@/components/PaginationControl'
 import { useQuery } from 'react-query'
 import { ItemsEntity, getUsers } from '@/services/getUsers'
 import { Table, TableBody, TableCell } from '@/components/ui/table'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Input } from '@/components/ui/input'
+import { Label } from '@radix-ui/react-label'
 
 type PaginationProps = {
   page: number
@@ -27,8 +34,18 @@ type PaginationProps = {
   lastPage: number
 }
 
+const SignUpSchema = z.object({
+  id: z.string(),
+  name: z.string().min(5).optional(),
+  email: z.string().email().optional(),
+  isTwoFactorEnabled: z.boolean().optional(),
+  role: z.string().optional(),
+})
+
+type SignUpType = z.infer<typeof SignUpSchema>
+
 export default function Permissions() {
-  const [modalOpen, toggleModalOpen] = useToggle(false)
+  // const [modalOpen, toggleModalOpen] = useToggle(false)
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -57,10 +74,20 @@ export default function Permissions() {
     return format(dateProp, "dd/MM/yyyy 'às' HH:mm:ss")
   }, [])
 
-  const handleEditClick = (userData: ItemsEntity) => {
-    setSelectedUserData(userData)
-    toggleModalOpen()
-  }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpType>({
+    resolver: zodResolver(SignUpSchema),
+    // defaultValues: {
+    //   id: user.id,
+    //   name: user.name,
+    //   email: user.email,
+    //   isTwoFactorEnabled: user.isTwoFactorEnabled,
+    //   role: user.role,
+    // },
+  })
 
   const { data, isError, isLoading } = useQuery(
     'user-list',
@@ -78,21 +105,6 @@ export default function Permissions() {
 
   return (
     <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 ">
-      {selectedUserData && (
-        <Modal.Root isOpen={modalOpen}>
-          <Modal.Form
-            close={toggleModalOpen}
-            user={{
-              id: selectedUserData.id,
-              name: selectedUserData?.name,
-              email: selectedUserData?.email,
-              isTwoFactorEnabled: selectedUserData.isTwoFactorEnabled,
-              role: selectedUserData.role,
-            }}
-          />
-        </Modal.Root>
-      )}
-
       <section className="bg-t1 flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
         <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-slate-100 px-3 duration-300 ease-in-out hover:w-64">
@@ -113,10 +125,10 @@ export default function Permissions() {
               <TableHead className="px-6 py-3">Id</TableHead>
               <TableHead className="px-6 py-3">Name</TableHead>
               <TableHead className="px-6 py-3">E-mail</TableHead>
-              <TableHead className="px-6 py-3">Two Factor Auth</TableHead>
               <TableHead className="px-6 py-3 text-center">
                 Verified E-mail
               </TableHead>
+              <TableHead className="px-6 py-3">Two Factor Auth</TableHead>
               <TableHead className="px-6 py-3">Role</TableHead>
               <TableHead className="px-6 py-3">Created At</TableHead>
               <TableHead className="px-6 py-3">Actions</TableHead>
@@ -134,6 +146,10 @@ export default function Permissions() {
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
+
+                <TableCell className="text-center">
+                  {item.emailVerified ? formatDate(item.emailVerified) : 'Não'}
+                </TableCell>
                 <TableCell className="text-center">
                   <Badge
                     className={
@@ -142,9 +158,6 @@ export default function Permissions() {
                   >
                     {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
                   </Badge>
-                </TableCell>
-                <TableCell className="text-center">
-                  {item.emailVerified ? formatDate(item.emailVerified) : 'Não'}
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -163,16 +176,57 @@ export default function Permissions() {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Editar o usuario {item.name}?</DialogTitle>
-                        <DialogDescription>
-                          This action cannot be undone. This will permanently
-                          delete your account and remove your data from our
-                          servers.
-                        </DialogDescription>
+                        <DialogTitle>
+                          Editar o usuario {item.name} ?
+                        </DialogTitle>
                       </DialogHeader>
+                      <form className="flex flex-col gap-2">
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Name</Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.name}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Email</Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.email}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">2FA</Label>
+                          <Input className="w-full" defaultValue={item.name} />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Role</Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.name}
+                          />
+                        </div>
+
+                        <DialogFooter className="mt-2 flex w-full justify-between gap-2">
+                          <Button
+                            type="submit"
+                            variant="default"
+                            className="w-full"
+                          >
+                            Salvar
+                          </Button>
+                          <DialogClose asChild>
+                            <Button variant="outline" className="w-full">
+                              Cancelar
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </form>
                     </DialogContent>
                   </Dialog>
-                  {/* <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"> */}
                   <Dialog>
                     <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
                       <Trash />
@@ -190,7 +244,6 @@ export default function Permissions() {
                       </DialogHeader>
                     </DialogContent>
                   </Dialog>
-                  {/* </button> */}
                 </TableCell>
               </TableRow>
             ))}
