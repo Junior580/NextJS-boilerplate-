@@ -57,8 +57,6 @@ export default function ModalForm({ user, close }: ModalProps) {
     },
   })
 
-  console.log(`🔥 ~ error useMutation: ${error}`)
-
   const onSubmit: SubmitHandler<SignUpType> = useCallback(
     async (data) => {
       const propertiesToRemove: Array<keyof SignUpType> = []
@@ -93,7 +91,7 @@ export default function ModalForm({ user, close }: ModalProps) {
   return (
     <div
       data-iserror={isError}
-      className="flex w-[500px] flex-col  items-center justify-between gap-8 rounded-lg bg-gray-500 p-4 shadow-3xl data-[iserror=true]:border-2 data-[iserror=true]:border-solid data-[iserror=true]:border-red-600"
+      className="shadow-3xl flex w-[500px]  flex-col items-center justify-between gap-8 rounded-lg bg-gray-500 p-4 data-[iserror=true]:border-2 data-[iserror=true]:border-solid data-[iserror=true]:border-red-600"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}

@@ -11,13 +11,13 @@ export default function AdminLayout({
   const authToken = cookieStore.get('@auth')
 
   if (!authToken) {
-    redirect('/signin')
+    return redirect('/signin')
   }
 
   return (
-    <main className="flex h-screen flex-row bg-secondary_bg ">
+    <main className="flex flex-row">
       <Sidebar />
-      <article className="h-screen w-full p-4">{children}</article>
+      <article className="overflow-auto p-4">{children}</article>
     </main>
   )
 }

@@ -5,7 +5,7 @@ const buttonStyle = tv({
   base: 'h-14 w-full rounded-lg  py-4 font-medium text-slate-700 transition duration-300',
   variants: {
     color: {
-      primary: 'bg-primary hover:bg-primary_hover',
+      primary: 'bg-red-500 hover:bg-primary_hover',
       secondary: 'bg-secondary hover:bg-secondary_hover',
       danger: 'bg-red-300 hover:bg-red-500',
     },

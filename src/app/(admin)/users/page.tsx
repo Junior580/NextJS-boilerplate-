@@ -10,6 +10,8 @@ import { useQuery } from 'react-query'
 import { ItemsEntity, getUsers } from '@/services/getUsers'
 import { Table, TableBody, TableCell } from '@/components/ui/table'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { format, parseISO } from 'date-fns'
+import { Badge } from '@/components/ui/badge'
 
 type PaginationProps = {
   page: number
@@ -45,11 +47,7 @@ export default function Permissions() {
   )
 
   const formatDate = useCallback((dateProp: string) => {
-    const date = new Date(dateProp)
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
+    return format(dateProp, "dd/MM/yyyy 'às' HH:mm:ss")
   }, [])
 
   const handleEditClick = (userData: ItemsEntity) => {
@@ -72,7 +70,7 @@ export default function Permissions() {
   }
 
   return (
-    <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 text-left">
+    <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 ">
       {selectedUserData && (
         <Modal.Root isOpen={modalOpen}>
           <Modal.Form
@@ -90,7 +88,7 @@ export default function Permissions() {
 
       <section className="bg-t1 flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
-        <div className="bg-t1 flex h-full w-52 items-center justify-center rounded-3xl px-3 duration-300 ease-in-out hover:w-64">
+        <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-slate-100 px-3 duration-300 ease-in-out hover:w-64">
           <input
             type="search"
             placeholder="Search Data..."
@@ -101,133 +99,56 @@ export default function Permissions() {
           <Search />
         </div>
       </section>
-      <section className="table-body bg-t2 mx-auto my-3 h-4/5 w-full overflow-auto  rounded-xl">
-        {/* <table className=" w-full">
-          <thead className=" left-0 top-0 border-collapse bg-secondary">
-            <tr>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Id
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Name
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                E-mail
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Password
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Two Factor Auth
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Verified E-mail
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Role
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4 text-center">
-                Created At
-              </th>
-              <th className=" left-0 top-0 border-collapse bg-secondary p-4">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="h-full">
-            {data &&
-              data.map((item, key) => {
-                return (
-                  <>
-                    <tr
-                      key={key}
-                      className="max-h-full max-w-full flex-col items-center overflow-auto"
-                    >
-                      <td className=" whitespace-nowrap text-center">
-                        {item.id.substring(0, 10)}...
-                      </td>
-                      <td>
-                        <td className="flex items-center justify-start px-2">
-                          <Image
-                            src="https://avatars.githubusercontent.com/u/93562736?v=4"
-                            alt={'username'}
-                            width={36}
-                            height={36}
-                            priority
-                            className="mr-2 rounded-full align-middle"
-                          />
-                          <td>{item.name}</td>
-                        </td>
-                      </td>
-                      <td className="px-2 text-center">{item.email}</td>
-                      <td className="px-2 text-center">
-                        {item.password.substring(0, 10)}...
-                      </td>
-                      <td className="px-2 text-center">
-                        {item.isTwoFactorEnabled ? (
-                          <p>Ativado</p>
-                        ) : (
-                          <p>Desativado</p>
-                        )}
-                      </td>
-                      <td className="px-2 text-center">
-                        {item.emailVerified ? (
-                          <p>{formatDate(item.emailVerified)}</p>
-                        ) : (
-                          <p>Não</p>
-                        )}
-                      </td>
-                      <td className="px-2 text-center">{item.role}</td>
-                      <td className="px-2 text-center">
-                        {formatDate(item.createdAt)}
-                      </td>
-
-                      <td className="border-collapse whitespace-nowrap p-4 text-center">
-                        <td className="flex items-center justify-center">
-                          <button
-                            className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"
-                            onClick={() => handleEditClick(item)}
-                          >
-                            <FileEdit />
-                          </button>
-                          <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                            <Trash />
-                          </button>
-                        </td>
-                      </td>
-                    </tr>
-                  </>
-                )
-              })}
-          </tbody>
-        </table> */}
-
-        <Table>
-          <TableHeader>
+      <section className="rounded-3xlshadow-md relative overflow-x-auto sm:rounded-lg">
+        <Table className="mr-7 border-collapse text-left text-sm">
+          <TableHeader className="bg-gray-300 text-xs uppercase text-white">
             <TableRow>
-              <TableHead>Id</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>E-mail</TableHead>
-              <TableHead>Password</TableHead>
-              <TableHead>Two Factor Auth</TableHead>
-              <TableHead>Verified E-mail</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="px-6 py-3">Id</TableHead>
+              <TableHead className="px-6 py-3">Name</TableHead>
+              <TableHead className="px-6 py-3">E-mail</TableHead>
+              <TableHead className="px-6 py-3">Two Factor Auth</TableHead>
+              <TableHead className="px-6 py-3 text-center">
+                Verified E-mail
+              </TableHead>
+              <TableHead className="px-6 py-3">Role</TableHead>
+              <TableHead className="px-6 py-3">Created At</TableHead>
+              <TableHead className="px-6 py-3">Actions</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {data?.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.id}</TableCell>
+              <TableRow
+                key={item.id}
+                className="whitespace-nowrap bg-gray-200 px-6  py-4 font-medium"
+              >
+                <TableCell className="font-medium">
+                  {item.id.split('-')[0]}
+                </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
-                <TableCell>{item.password}</TableCell>
-                <TableCell>{item.isTwoFactorEnabled ? 'Sim' : 'Não'}</TableCell>
-                <TableCell>{item.emailVerified ? 'Sim' : 'Não'}</TableCell>
-                <TableCell>{item.role}</TableCell>
-                <TableCell>{item.createdAt}</TableCell>
+                <TableCell className="text-center">
+                  <Badge
+                    className={
+                      item.isTwoFactorEnabled ? 'bg-green-400' : 'bg-red-400'
+                    }
+                  >
+                    {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-center">
+                  {item.emailVerified ? formatDate(item.emailVerified) : 'Não'}
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    className={
+                      item.role === 'ADMIN' ? 'bg-green-400' : 'bg-blue-400'
+                    }
+                  >
+                    {item.role}
+                  </Badge>
+                </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
                 <TableCell className="flex items-center justify-center">
                   <button
                     className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"
