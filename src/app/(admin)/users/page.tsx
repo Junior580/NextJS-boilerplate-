@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Search, FileEdit, Trash } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import useToggle from '@/hooks/useToggle'
@@ -12,6 +11,14 @@ import { Table, TableBody, TableCell } from '@/components/ui/table'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { format, parseISO } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 type PaginationProps = {
   page: number
@@ -150,15 +157,40 @@ export default function Permissions() {
                 </TableCell>
                 <TableCell>{formatDate(item.createdAt)}</TableCell>
                 <TableCell className="flex items-center justify-center">
-                  <button
-                    className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"
-                    onClick={() => handleEditClick(item)}
-                  >
-                    <FileEdit />
-                  </button>
-                  <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                    <Trash />
-                  </button>
+                  <Dialog>
+                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                      <FileEdit />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Editar o usuario {item.name}?</DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                  {/* <button className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out"> */}
+                  <Dialog>
+                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                      <Trash />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          Deletar o usuario {item.name}?
+                        </DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                  {/* </button> */}
                 </TableCell>
               </TableRow>
             ))}
