@@ -10,10 +10,12 @@ import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
 import ErrorMessage from '@/components/ErrorMessage'
-import { Select } from '@/components/Select'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function SignIn() {
   const router = useRouter()
+  const { toast } = useToast()
+
   const SignUpSchema = z.object({
     email: z.string().email(),
     password: z.string().min(5),
@@ -31,24 +33,25 @@ export default function SignIn() {
       password: '',
     },
   })
-
-  const { mutate, isLoading, isError, error } = useMutation({
+  const { mutate, isLoading, error } = useMutation({
     mutationFn: async (data: SignUpSchemaType) => {
       return api.post('/auth', data)
     },
     onSuccess: (e) => {
-      if (e.data === 'Confirm your email first!') {
-        //se precisar confirmar email, aexibir em tela
-        console.log('🔥 Confirm your email first!')
+      if (e.data.message == 'Confirm your email first!') {
+        toast({
+          title: 'Confirm your email first ',
+        })
+        return
       }
-      if (e.data === '2fa') {
+      if (e.data.message === '2fa') {
         console.log('🔥 2fa')
-        //se tiver logado, nunca chegar na pagina
-
         return router.replace('/signin/two-factor-auth')
       }
-
       return router.replace('/dashboard')
+    },
+    onError: (e) => {
+      console.log(`errors ${JSON.stringify(e)}`)
     },
   })
 
@@ -97,7 +100,7 @@ export default function SignIn() {
 
               <Button type="submit" name="Entrar" isLoading={isLoading} />
             </form>
-            {true && <ErrorMessage message={`Error ao logar, ${error}.`} />}
+            {false && <ErrorMessage message={`Error ao logar, ${error}.`} />}
           </>
         )}
         {false && (

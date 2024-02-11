@@ -25,7 +25,14 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
-import { Label } from '@radix-ui/react-label'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type PaginationProps = {
   page: number
@@ -199,15 +206,35 @@ export default function Permissions() {
                         </div>
                         <div className="flex items-center gap-4">
                           <Label className="inline-block w-[60px]">2FA</Label>
-                          <Input className="w-full" defaultValue={item.name} />
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue
+                                placeholder={
+                                  item.isTwoFactorEnabled ? 'Sim' : 'Não'
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="true">Sim</SelectItem>
+                              <SelectItem value="false">Não</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label className="inline-block w-[60px]">Role</Label>
-                          <Input
-                            type="text"
-                            className="w-full"
-                            defaultValue={item.name}
-                          />
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue
+                                placeholder={
+                                  item.role === 'ADMIN' ? 'Admin' : 'User'
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ADMIN">Admin</SelectItem>
+                              <SelectItem value="USER">Não</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
 
                         <DialogFooter className="mt-2 flex w-full justify-between gap-2">
