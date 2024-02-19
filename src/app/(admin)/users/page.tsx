@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+
 import { Button } from '@/components/ui/button'
 
 import { z } from 'zod'
@@ -65,8 +66,6 @@ export default function Permissions() {
     lastPage: 0,
   })
 
-  const { page, itemsPerPage, currentPage, lastPage } = pagination
-
   const handleChange = useCallback(
     (key: keyof PaginationProps, value: number) => {
       setPagination((prev) => ({
@@ -97,8 +96,13 @@ export default function Permissions() {
   })
 
   const { data, isError, isLoading } = useQuery(
-    'user-list',
-    () => getUsers({ itemsPerPage, page, searchFilter }),
+    ['user-list', pagination],
+    () =>
+      getUsers({
+        itemsPerPage: pagination.itemsPerPage,
+        page: pagination.page,
+        searchFilter: searchFilter,
+      }),
     { keepPreviousData: true, staleTime: 5000 },
   )
 
@@ -111,7 +115,7 @@ export default function Permissions() {
   }
 
   return (
-    <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 ">
+    <main className="bg-t3 shadow-3xl 0 h-full w-full rounded-xl p-4 ">
       <section className="bg-t1 flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
         <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-slate-100 px-3 duration-300 ease-in-out hover:w-64">
@@ -143,7 +147,7 @@ export default function Permissions() {
           </TableHeader>
 
           <TableBody>
-            {data?.map((item) => (
+            {data?.items?.map((item) => (
               <TableRow
                 key={item.id}
                 className="whitespace-nowrap bg-gray-200 px-6  py-4 font-medium"
@@ -232,7 +236,7 @@ export default function Permissions() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ADMIN">Admin</SelectItem>
-                              <SelectItem value="USER">Não</SelectItem>
+                              <SelectItem value="USER">User</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -279,9 +283,9 @@ export default function Permissions() {
       </section>
 
       <PaginationControl
-        currentPage={currentPage}
-        lastPage={lastPage}
-        page={page}
+        currentPage={data?.currentPage ?? 1}
+        lastPage={data?.lastPage ?? 0}
+        page={data?.currentPage ?? 1}
         handleChange={handleChange}
       />
     </main>

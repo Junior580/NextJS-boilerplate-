@@ -35,5 +35,5 @@ export async function getUsers({
     .get<Data>(
       `/list-user?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
     )
-    .then((response) => response.data.items)
+    .then((response) => response.data)
 }

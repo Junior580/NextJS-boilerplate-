@@ -41,7 +41,7 @@ export default function PaginationControl({
         className={`cursor-pointer rounded-lg p-1 duration-150 ease-in-out ${
           page === 1 ? 'text-gray-300' : 'hover:bg-primary_hover'
         }`}
-        onClick={() => handleChange('page', currentPage)}
+        onClick={() => handleChange('page', 1)}
         disabled={page === 1}
       >
         <ArrowLeftToLine size={20} />
@@ -62,8 +62,8 @@ export default function PaginationControl({
             <button
               onClick={() => handleChange('page', item)}
               key={key}
-              className={`cursor-pointer rounded-lg p-1 font-bold duration-150  ease-in-out hover:bg-primary_hover ${
-                page === item && 'bg-primary_hover'
+              className={`hover:bg-primary_hover cursor-pointer rounded-lg p-1 font-bold  duration-150 ease-in-out ${
+                page === item && 'bg-slate-400'
               }`}
             >
               {item}
