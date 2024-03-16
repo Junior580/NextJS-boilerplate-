@@ -2,14 +2,15 @@
 
 import { Input } from '@/components/Input'
 import api from '@/services/api'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { z } from 'zod'
 
 import Button from '@/components/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
+import ErrorMessage from '@/components/ErrorMessage'
 
 const TwoFactorAuthSchema = z.object({
   pin: z.string().length(6),
@@ -18,22 +19,28 @@ const TwoFactorAuthSchema = z.object({
 type TwoFactorAuthType = z.infer<typeof TwoFactorAuthSchema>
 
 export default function TwoFactorAuth() {
+  const [email] = useState(() => localStorage.getItem('2fa'))
   const router = useRouter()
-  console.log(`🔥 ~TwoFactorAuth page ~ ${JSON.stringify('')} `)
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<TwoFactorAuthType>({
     resolver: zodResolver(TwoFactorAuthSchema),
+    defaultValues: { pin: '' },
   })
 
   const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: async (data: TwoFactorAuthType) => {
-      return api.post('/auth/2fa', data)
+    mutationFn: async ({ pin }: TwoFactorAuthType) => {
+      localStorage.removeItem('2fa')
+      return api.post('/auth/2fa', {
+        email,
+        code: pin,
+      })
     },
     onSuccess: () => {
-      // return router.replace('/dashboard')
+      return router.push('/dashboard')
     },
   })
 
@@ -64,6 +71,7 @@ export default function TwoFactorAuth() {
 
         <Button type="submit" name="Entrar" isLoading={isLoading} />
       </form>
+      {false && <ErrorMessage message={`Error ao logar, ${error}.`} />}
     </main>
   )
 }

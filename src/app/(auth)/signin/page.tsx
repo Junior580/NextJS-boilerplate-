@@ -7,7 +7,6 @@ import Button from '@/components/Button'
 import { Input } from '@/components/Input/index'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import api from '@/services/api'
-// import { useRouter } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
 import ErrorMessage from '@/components/ErrorMessage'
@@ -41,19 +40,17 @@ export default function SignIn() {
       return api.post('/auth', data)
     },
     onSuccess: (e) => {
-      if (e.data.message == 'Confirm your email first!') {
+      if (e.data.isTwoFactorAuthEnabled) {
+        return router.push('two-factor-auth')
+      }
+
+      if (e.data.isEmailVerified === false) {
         toast({
-          title: 'Confirm your email first ',
+          title: 'Confirm your email first before trying to log in',
         })
         return
       }
-      if (e.data === '2fa token sended') {
-        // ajustar o backend para que ele envie em formato jason
-        // setar no local storage logando, para que nao sej a possivel acessar two-factor-auth logado,
-        // ou sem ter digitado o email
-        console.log(`🔥 2fa message: ${JSON.stringify(e.config.data.email)}`)
-        return router.push('two-factor-auth')
-      }
+
       return router.replace('/dashboard')
     },
     onError: (e) => {
@@ -69,72 +66,42 @@ export default function SignIn() {
   return (
     <main className="flex h-screen items-center justify-center bg-slate-400">
       <div>
-        {true && (
-          <>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex w-80 flex-col items-center justify-center gap-2 rounded-lg bg-white p-2"
-            >
-              <h1 className="mb-1 text-xl font-bold">Faça seu logon</h1>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-80 flex-col items-center justify-center gap-2 rounded-lg bg-white p-2"
+        >
+          <h1 className="mb-1 text-xl font-bold">Faça seu logon</h1>
 
-              <Controller
-                control={control}
-                name="email"
-                render={({ field: { onChange, value } }) => (
-                  <Input.Root
-                    placeholder="E-mail"
-                    onChange={onChange}
-                    value={value}
-                    error={errors.email}
-                  />
-                )}
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, value } }) => (
+              <Input.Root
+                placeholder="E-mail"
+                onChange={onChange}
+                value={value}
+                error={errors.email}
               />
+            )}
+          />
 
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, value } }) => (
-                  <Input.Root
-                    type="password"
-                    placeholder="Senha"
-                    onChange={onChange}
-                    value={value}
-                    error={errors.password}
-                  />
-                )}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <Input.Root
+                type="password"
+                placeholder="Senha"
+                onChange={onChange}
+                value={value}
+                error={errors.password}
               />
+            )}
+          />
 
-              <Button type="submit" name="Entrar" isLoading={isLoading} />
-            </form>
-            {false && <ErrorMessage message={`Error ao logar, ${error}.`} />}
-          </>
-        )}
-        {false && (
-          <>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex w-80 flex-col items-center justify-center gap-2 rounded-lg bg-white p-2"
-            >
-              <h1 className="mb-1 text-xl font-bold">2fa</h1>
-
-              <Controller
-                control={control}
-                name="email"
-                render={({ field: { onChange, value } }) => (
-                  <Input.Root
-                    placeholder="6 dig pin"
-                    onChange={onChange}
-                    value={value}
-                    error={errors.email}
-                  />
-                )}
-              />
-
-              <Button type="submit" name="Entrar" isLoading={isLoading} />
-            </form>
-            {false && <ErrorMessage message={`Error ao logar, ${error}.`} />}
-          </>
-        )}
+          <Button type="submit" name="Entrar" isLoading={isLoading} />
+        </form>
+        {!!error && <ErrorMessage message={`Error ao logar, ${error}.`} />}
       </div>
     </main>
   )
