@@ -1,8 +1,5 @@
 'use client'
 
-import Button from '@/components/Button'
-import Table from '@/components/Table'
-
 export default function Dashboard() {
   const data = [
     { name: 'user1', email: 'user1@email.com' },
@@ -19,14 +16,6 @@ export default function Dashboard() {
   return (
     <main className="flex flex-col gap-4 rounded-md bg-white p-5 ">
       <h1 className="font-bold">Dashboard:</h1>
-
-      <Table data={data} actions={true} />
-
-      <div className="flex  w-48 gap-4 self-end">
-        <Button name="Voltar" color="secondary" />
-
-        <Button name="Criar" />
-      </div>
     </main>
   )
 }

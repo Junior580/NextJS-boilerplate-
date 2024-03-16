@@ -41,7 +41,8 @@ export default function SignIn() {
     },
     onSuccess: (e) => {
       if (e.data.isTwoFactorAuthEnabled) {
-        return router.push('two-factor-auth')
+        const { email } = JSON.parse(e.config.data)
+        return router.push(`two-factor-auth?user=${email}`)
       }
 
       if (e.data.isEmailVerified === false) {
@@ -51,7 +52,7 @@ export default function SignIn() {
         return
       }
 
-      return router.replace('/dashboard')
+      return router.replace('/users')
     },
     onError: (e) => {
       console.log(`errors ${JSON.stringify(e)}`)
@@ -62,6 +63,42 @@ export default function SignIn() {
     async (data) => mutate(data),
     [mutate],
   )
+
+  const teste = {
+    data: { isTwoFactorAuthEnabled: true },
+    status: 201,
+    statusText: 'Created',
+    headers: {
+      'content-length': '31',
+      'content-type': 'application/json; charset=utf-8',
+    },
+    config: {
+      transitional: {
+        silentJSONParsing: true,
+        forcedJSONParsing: true,
+        clarifyTimeoutError: false,
+      },
+      adapter: ['xhr', 'http'],
+      transformRequest: [null],
+      transformResponse: [null],
+      timeout: 0,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: {},
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      baseURL: 'http://localhost:3333',
+      withCredentials: true,
+      method: 'post',
+      url: '/auth',
+      data: '{"email":"user2@email.com","password":"teste123@"}',
+    },
+    request: {},
+  }
 
   return (
     <main className="flex h-screen items-center justify-center bg-slate-400">
