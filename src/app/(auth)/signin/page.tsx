@@ -7,21 +7,23 @@ import Button from '@/components/Button'
 import { Input } from '@/components/Input/index'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import api from '@/services/api'
+// import { useRouter } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useToast } from '@/components/ui/use-toast'
 
+const SignUpSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(5),
+})
+
+type SignUpSchemaType = z.infer<typeof SignUpSchema>
+
 export default function SignIn() {
   const router = useRouter()
   const { toast } = useToast()
 
-  const SignUpSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(5),
-  })
-
-  type SignUpSchemaType = z.infer<typeof SignUpSchema>
   const {
     control,
     handleSubmit,
@@ -33,6 +35,7 @@ export default function SignIn() {
       password: '',
     },
   })
+
   const { mutate, isLoading, error } = useMutation({
     mutationFn: async (data: SignUpSchemaType) => {
       return api.post('/auth', data)
@@ -44,9 +47,12 @@ export default function SignIn() {
         })
         return
       }
-      if (e.data.message === '2fa') {
-        console.log('🔥 2fa')
-        return router.replace('/signin/two-factor-auth')
+      if (e.data === '2fa token sended') {
+        // ajustar o backend para que ele envie em formato jason
+        // setar no local storage logando, para que nao sej a possivel acessar two-factor-auth logado,
+        // ou sem ter digitado o email
+        console.log(`🔥 2fa message: ${JSON.stringify(e.config.data.email)}`)
+        return router.push('two-factor-auth')
       }
       return router.replace('/dashboard')
     },
