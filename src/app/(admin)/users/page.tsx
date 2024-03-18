@@ -34,6 +34,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 type PaginationProps = {
   page: number
@@ -52,8 +54,21 @@ const SignUpSchema = z.object({
 
 type SignUpType = z.infer<typeof SignUpSchema>
 
-export default function Permissions() {
-  // const [modalOpen, toggleModalOpen] = useToggle(false)
+export default function Users() {
+  //se o usuario nao enviar a permission no url, retonar que a pagina nao existe
+  // const router = useRouter()
+  // const searchParams = useSearchParams()
+  // const email = searchParams.get('user')
+
+  // if (!email)
+  //   return (
+  //     <>
+  //       <p>Page does not exists</p>
+  //     </>
+  //   )
+
+  //
+
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -246,6 +261,7 @@ export default function Permissions() {
                             type="submit"
                             variant="default"
                             className="w-full"
+                            onClick={() => console.log('usuario editado')}
                           >
                             Salvar
                           </Button>

@@ -31,7 +31,7 @@ export default function Sidebar() {
       <div
         className={`flex h-screen w-14 ${
           sidebar ? 'md:w-64' : 'md:w-14'
-        } relative flex-col items-center  border-r-2 border-gray-400 bg-green-100`}
+        } relative flex-col items-center  border-r-2 `}
       >
         <section className="mt-4 hidden flex-col items-center justify-center md:flex ">
           {sidebar && (
@@ -88,7 +88,7 @@ export default function Sidebar() {
             </div>
           </Link>
           <Link href="">
-            <div className="flex py-1   text-green-600 duration-150 ease-in-out hover:text-green-400">
+            <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
               <ClipboardEdit className="ml-4" />
               {sidebar && (
                 <p className="ml-4 hidden md:block">Lista de serviços</p>

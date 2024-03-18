@@ -54,11 +54,12 @@ export default function SignIn() {
         })
         return
       }
+      // return router.replace(`/users?role=${user role}`)
 
       return router.replace('/users')
     },
     onError: (e) => {
-      console.log(`errors ${JSON.stringify(e)}`)
+      console.log(`❌ ~ line 62 ~ errors: ${JSON.stringify(e)}`)
     },
   })
 
@@ -120,7 +121,12 @@ export default function SignIn() {
         {!!error && (
           <Alert variant="destructive" className="w-80">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{`Erro no servidor: ${error}`}</AlertDescription>
+            <AlertDescription>
+              {(error as { message?: string }).message ===
+              'Incorrect username and password combination'
+                ? 'Usuário ou senha incorretos'
+                : 'Erro no servidor'}
+            </AlertDescription>
           </Alert>
         )}
       </div>

@@ -9,9 +9,9 @@ function handleRequestError(error: AxiosError) {
   if (error.response) {
     console.error(
       '🚀 file: api.ts ~ Error server response: ',
-      error.response.data.message,
+      error.response.data,
     )
-    throw new Error(`${JSON.stringify(error.response.data)}`)
+    throw error.response.data
   } else if (error.request) {
     console.error('🚀 file: api.ts ~ Without server response: ', error.request)
     throw new Error(`Without server response: ${JSON.stringify(error.request)}`)
