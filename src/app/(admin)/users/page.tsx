@@ -115,23 +115,23 @@ export default function Permissions() {
   }
 
   return (
-    <main className="bg-t3 shadow-3xl 0 h-full w-full rounded-xl p-4 ">
-      <section className="bg-t1 flex w-full items-center justify-between rounded-lg px-4 py-3">
+    <main className="p-4">
+      <section className="flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">{isLoading ? 'Carregando...' : 'Users'}</h1>
-        <div className="flex h-full w-52 items-center justify-center rounded-3xl bg-slate-100 px-3 duration-300 ease-in-out hover:w-64">
+        <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
           <input
             type="search"
             placeholder="Search Data..."
-            className="w-full border-none bg-transparent px-1 py-2 outline-none"
+            className="w-full rounded-xl border-none bg-transparent px-1 py-2 outline-none"
             value={searchFilter}
             onChange={(e) => setSearchFilter(e.target.value)}
           />
           <Search />
         </div>
       </section>
-      <section className="rounded-3xlshadow-md relative overflow-x-auto sm:rounded-lg">
+      <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
-          <TableHeader className="bg-gray-300 text-xs uppercase text-white">
+          <TableHeader className=" text-xs uppercase ">
             <TableRow>
               <TableHead className="px-6 py-3">Id</TableHead>
               <TableHead className="px-6 py-3">Name</TableHead>
@@ -150,7 +150,7 @@ export default function Permissions() {
             {data?.items?.map((item) => (
               <TableRow
                 key={item.id}
-                className="whitespace-nowrap bg-gray-200 px-6  py-4 font-medium"
+                className="whitespace-nowrap  px-6  py-4 font-medium"
               >
                 <TableCell className="font-medium">
                   {item.id.split('-')[0]}

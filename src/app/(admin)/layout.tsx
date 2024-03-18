@@ -17,7 +17,7 @@ export default function AdminLayout({
   return (
     <main className="flex flex-row">
       <Sidebar />
-      <article className="w-full overflow-auto p-4">{children}</article>
+      <article className="w-full">{children}</article>
     </main>
   )
 }
