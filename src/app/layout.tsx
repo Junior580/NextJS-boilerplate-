@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import QueryProvider from '@/providers/queryProvider'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,10 +21,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-        <QueryProvider>
-          {children}
-          <Toaster />
-        </QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            <QueryProvider>
+              {children}
+              <Toaster />
+            </QueryProvider>
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

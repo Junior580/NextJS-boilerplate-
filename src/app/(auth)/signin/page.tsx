@@ -3,14 +3,16 @@
 import { useCallback } from 'react'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Button from '@/components/Button'
-import { Input } from '@/components/Input/index'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
-import ErrorMessage from '@/components/ErrorMessage'
 import { useToast } from '@/components/ui/use-toast'
+
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AlertCircle } from 'lucide-react'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -42,6 +44,7 @@ export default function SignIn() {
     onSuccess: (e) => {
       if (e.data.isTwoFactorAuthEnabled) {
         const { email } = JSON.parse(e.config.data)
+
         return router.push(`two-factor-auth?user=${email}`)
       }
 
@@ -64,48 +67,12 @@ export default function SignIn() {
     [mutate],
   )
 
-  const teste = {
-    data: { isTwoFactorAuthEnabled: true },
-    status: 201,
-    statusText: 'Created',
-    headers: {
-      'content-length': '31',
-      'content-type': 'application/json; charset=utf-8',
-    },
-    config: {
-      transitional: {
-        silentJSONParsing: true,
-        forcedJSONParsing: true,
-        clarifyTimeoutError: false,
-      },
-      adapter: ['xhr', 'http'],
-      transformRequest: [null],
-      transformResponse: [null],
-      timeout: 0,
-      xsrfCookieName: 'XSRF-TOKEN',
-      xsrfHeaderName: 'X-XSRF-TOKEN',
-      maxContentLength: -1,
-      maxBodyLength: -1,
-      env: {},
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-      baseURL: 'http://localhost:3333',
-      withCredentials: true,
-      method: 'post',
-      url: '/auth',
-      data: '{"email":"user2@email.com","password":"teste123@"}',
-    },
-    request: {},
-  }
-
   return (
-    <main className="flex h-screen items-center justify-center bg-slate-400">
+    <main className="flex h-screen items-center justify-center ">
       <div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-80 flex-col items-center justify-center gap-2 rounded-lg bg-white p-2"
+          className="flex w-80 flex-col items-center justify-center gap-4 rounded-lg p-2"
         >
           <h1 className="mb-1 text-xl font-bold">Faça seu logon</h1>
 
@@ -113,12 +80,15 @@ export default function SignIn() {
             control={control}
             name="email"
             render={({ field: { onChange, value } }) => (
-              <Input.Root
-                placeholder="E-mail"
-                onChange={onChange}
-                value={value}
-                error={errors.email}
-              />
+              <>
+                <Input placeholder="E-mail" onChange={onChange} value={value} />
+                {errors.email && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{errors.email.message}</AlertDescription>
+                  </Alert>
+                )}
+              </>
             )}
           />
 
@@ -126,19 +96,33 @@ export default function SignIn() {
             control={control}
             name="password"
             render={({ field: { onChange, value } }) => (
-              <Input.Root
-                type="password"
-                placeholder="Senha"
-                onChange={onChange}
-                value={value}
-                error={errors.password}
-              />
+              <>
+                <Input
+                  type="password"
+                  placeholder="Senha"
+                  onChange={onChange}
+                  value={value}
+                />
+                {errors.password && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      {errors.password.message}
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </>
             )}
           />
 
-          <Button type="submit" name="Entrar" isLoading={isLoading} />
+          <Button type="submit">Entrar</Button>
         </form>
-        {!!error && <ErrorMessage message={`Error ao logar, ${error}.`} />}
+        {!!error && (
+          <Alert variant="destructive" className="w-80">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{`Erro no servidor: ${error}`}</AlertDescription>
+          </Alert>
+        )}
       </div>
     </main>
   )

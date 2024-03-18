@@ -11,7 +11,7 @@ export default function HomeLayout({
   const authToken = cookieStore.get('@auth')
 
   if (!!authToken) {
-    redirect('/dashboard')
+    return redirect('/dashboard')
   }
 
   return <>{children}</>

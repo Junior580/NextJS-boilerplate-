@@ -10,10 +10,19 @@ import { z } from 'zod'
 
 import { useSearchParams } from 'next/navigation'
 
-import Button from '@/components/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback } from 'react'
 import ErrorMessage from '@/components/ErrorMessage'
+import { Button } from '@/components/ui/button'
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from '@/components/ui/input-otp'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AlertCircle } from 'lucide-react'
 
 const TwoFactorAuthSchema = z.object({
   pin: z.string().length(6),
@@ -30,8 +39,10 @@ interface TwoFactorAuthProps {
 export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-
   const email = searchParams.get('user')
+
+  if (!email) return router.replace('/signin')
+
   const {
     control,
     handleSubmit,
@@ -49,7 +60,7 @@ export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
       })
     },
     onSuccess: () => {
-      return router.replace('/dashboard')
+      return router.replace('/users')
     },
   })
 
@@ -58,30 +69,59 @@ export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
     [mutate],
   )
   return (
-    <main className="flex h-screen items-center justify-center bg-slate-400">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex w-80 flex-col items-center justify-center gap-2 rounded-lg bg-white p-2"
-      >
-        <h1 className="mb-1 text-xl font-bold">Digite o pin</h1>
+    <main className="flex h-screen items-center justify-center">
+      <div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-80 flex-col items-center justify-center gap-4 rounded-lg p-2"
+        >
+          <h1 className="mb-1 text-xl font-bold">Digite seu pin:</h1>
 
-        <Controller
-          control={control}
-          name="pin"
-          render={({ field: { onChange, value } }) => (
-            <Input.Root
-              placeholder="6 dig pin"
-              onChange={onChange}
-              value={value}
-              error={errors.pin}
-            />
-          )}
-        />
+          <Controller
+            control={control}
+            name="pin"
+            render={({ field: { onChange, value } }) => (
+              <>
+                <InputOTP
+                  onChange={onChange}
+                  value={value}
+                  maxLength={6}
+                  render={({ slots }) => (
+                    <>
+                      <InputOTPGroup>
+                        {slots.slice(0, 3).map((slot, index) => (
+                          <InputOTPSlot key={index} {...slot} />
+                        ))}{' '}
+                      </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup>
+                        {slots.slice(3).map((slot, index) => (
+                          <InputOTPSlot key={index} {...slot} />
+                        ))}
+                      </InputOTPGroup>
+                    </>
+                  )}
+                />
 
-        <Button type="submit" name="Entrar" isLoading={isLoading} />
-      </form>
-      <h1>Search: {email}</h1>
-      {false && <ErrorMessage message={`Error ao logar, ${error}.`} />}
+                {errors.pin && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{errors.pin.message}</AlertDescription>
+                  </Alert>
+                )}
+              </>
+            )}
+          />
+
+          <Button type="submit">Entrar</Button>
+        </form>
+        {!!error && (
+          <Alert variant="destructive" className="w-80">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{`Erro no servidor: ${error}`}</AlertDescription>
+          </Alert>
+        )}
+      </div>
     </main>
   )
 }
