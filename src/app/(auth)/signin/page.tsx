@@ -37,26 +37,19 @@ export default function SignIn() {
     },
   })
 
-  const { mutate, isLoading, error } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: async (data: SignUpSchemaType) => {
       return api.post('/auth', data)
     },
     onSuccess: (e) => {
-      if (e.data.isTwoFactorAuthEnabled) {
+      if (e.status === 204) {
         const { email } = JSON.parse(e.config.data)
 
         return router.push(`two-factor-auth?user=${email}`)
       }
 
-      if (e.data.isEmailVerified === false) {
-        toast({
-          title: 'Confirm your email first before trying to log in',
-        })
-        return
-      }
-      // return router.replace(`/users?role=${user role}`)
-
-      return router.replace('/users')
+      // console.log(`✅ ~ sucessfull login ~ ${JSON.stringify(e.data)}`)
+      return router.replace(`/dashboard?role=${e.data.role}`)
     },
     onError: (e) => {
       console.log(`❌ ~ line 62 ~ errors: ${JSON.stringify(e)}`)
@@ -67,6 +60,17 @@ export default function SignIn() {
     async (data) => mutate(data),
     [mutate],
   )
+
+  const getErrorMessage = (error: { message?: string }) => {
+    switch (error.message) {
+      case 'Incorrect username and password combination':
+        return 'Usuário ou senha incorretos'
+      case 'User email is not verified. Please verify your email to proceed.':
+        return 'Cadastro incompleto. Por favor, verifique seu email para continuar.'
+      default:
+        return 'Erro no servidor'
+    }
+  }
 
   return (
     <main className="flex h-screen items-center justify-center ">
@@ -121,12 +125,7 @@ export default function SignIn() {
         {!!error && (
           <Alert variant="destructive" className="w-80">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              {(error as { message?: string }).message ===
-              'Incorrect username and password combination'
-                ? 'Usuário ou senha incorretos'
-                : 'Erro no servidor'}
-            </AlertDescription>
+            <AlertDescription>{getErrorMessage(error)}</AlertDescription>
           </Alert>
         )}
       </div>

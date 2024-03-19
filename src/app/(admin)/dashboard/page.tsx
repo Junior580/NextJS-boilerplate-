@@ -14,7 +14,7 @@ export default function Dashboard() {
   ]
 
   return (
-    <main className="flex flex-col gap-4 rounded-md bg-white p-5 ">
+    <main className="flex flex-col gap-4 rounded-md p-5 ">
       <h1 className="font-bold">Dashboard:</h1>
     </main>
   )

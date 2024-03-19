@@ -58,17 +58,7 @@ export default function Users() {
   //se o usuario nao enviar a permission no url, retonar que a pagina nao existe
   // const router = useRouter()
   // const searchParams = useSearchParams()
-  // const email = searchParams.get('user')
-
-  // if (!email)
-  //   return (
-  //     <>
-  //       <p>Page does not exists</p>
-  //     </>
-  //   )
-
-  //
-
+  // const role = searchParams.get('role')
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -128,6 +118,13 @@ export default function Users() {
       </p>
     )
   }
+
+  // if (role === 'USER' || role === null)
+  //   return (
+  //     <p className="p-4 font-bold text-red-400 shadow-2xl">
+  //       Page does not exists
+  //     </p>
+  //   )
 
   return (
     <main className="p-4">
