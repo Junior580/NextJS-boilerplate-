@@ -2,10 +2,10 @@
 
 import React, {
   createContext,
-  useCallback,
   useState,
   useContext,
   ReactNode,
+  useEffect,
 } from 'react'
 
 interface User {
@@ -16,7 +16,7 @@ interface User {
 }
 
 interface AuthContextData {
-  user: User | null
+  user: User
 }
 
 interface AuthProviderProps {
@@ -26,15 +26,16 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [data] = useState<User>(() => {
+  const [data, setData] = useState<User>({} as User)
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('@GoBarber:user')
-      if (user) {
-        return JSON.parse(user)
+      const userData = localStorage.getItem('@GoBarber:user')
+      if (userData) {
+        setData(JSON.parse(userData))
       }
-      return {} as User
     }
-  })
+  }, [])
 
   return (
     <AuthContext.Provider value={{ user: data }}>

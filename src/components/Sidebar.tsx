@@ -24,8 +24,9 @@ export default function Sidebar() {
   const router = useRouter()
 
   const { user } = useAuth()
+
   const [sidebar, toggleValue] = useToggle(true)
-  console.log(`use auth: ${JSON.stringify(user)}`)
+
   const logout = async () => {
     localStorage.removeItem('@GoBarber:user')
     await api.post('/auth/logout').then(() => router.replace('/signin'))
@@ -50,10 +51,10 @@ export default function Sidebar() {
                 className="hidden rounded-full border-2 border-primary md:block"
               />
               <p className="font-bold text-primary">
-                {user && capitalizeFirstLetter(user.name)}
+                {capitalizeFirstLetter(user?.name)}
               </p>
               <p className="font-semibold text-primary">
-                {user && capitalizeFirstLetter(user.role)}
+                {capitalizeFirstLetter(user?.role)}
               </p>
             </>
           )}
@@ -74,18 +75,17 @@ export default function Sidebar() {
         </button>
 
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
-          {/* alterar para admin */}
-          {/* {isAdmin && ( */}
-          <Link href="/users">
-            <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
-              <Users className="ml-4" />
-              {sidebar && (
-                <p className="ml-4 hidden shadow-2xl md:block">Users</p>
-              )}
-            </div>
-          </Link>
-          {/* )} */}
-
+          {user?.role === 'ADMIN' ||
+            (user.role === 'USER' && (
+              <Link href="/users">
+                <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
+                  <Users className="ml-4" />
+                  {sidebar && (
+                    <p className="ml-4 hidden shadow-2xl md:block">Users</p>
+                  )}
+                </div>
+              </Link>
+            ))}
           {/* {role === 'USER' && ( */}
           <Link href="/permissions">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">

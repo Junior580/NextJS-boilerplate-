@@ -42,7 +42,6 @@ export default function SignIn() {
       return api.post('/auth', data)
     },
     onSuccess: (e) => {
-      // console.log(`🔥 ~ login: ${JSON.stringify(e.data.userInfo.name)}`)
       if (e.status === 204) {
         const { email } = JSON.parse(e.config.data)
 
