@@ -5,6 +5,7 @@ import QueryProvider from '@/providers/queryProvider'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import AppProvider from '@/hooks'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,7 +30,7 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <QueryProvider>
-              {children}
+              <AppProvider>{children}</AppProvider>
               <Toaster />
             </QueryProvider>
           </TooltipProvider>

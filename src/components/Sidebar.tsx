@@ -13,23 +13,23 @@ import {
 } from 'lucide-react'
 import useToggle from '@/hooks/useToggle'
 import api from '@/services/api'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
+import { capitalizeFirstLetter } from '@/lib/capitalizeFirstLetter'
+import { useAuth } from '@/hooks/auth'
 
 export default function Sidebar() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const role = searchParams.get('role')
 
+  const { user } = useAuth()
   const [sidebar, toggleValue] = useToggle(true)
-
+  console.log(`use auth: ${JSON.stringify(user)}`)
   const logout = async () => {
+    localStorage.removeItem('@GoBarber:user')
     await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
-
-  const isAdmin = role === 'ADMIN'
-  const isUser = role === 'USER'
 
   return (
     <aside>
@@ -49,8 +49,12 @@ export default function Sidebar() {
                 priority
                 className="hidden rounded-full border-2 border-primary md:block"
               />
-              <p className="font-bold text-primary">user name</p>
-              <p className="font-semibold text-primary">position</p>
+              <p className="font-bold text-primary">
+                {user && capitalizeFirstLetter(user.name)}
+              </p>
+              <p className="font-semibold text-primary">
+                {user && capitalizeFirstLetter(user.role)}
+              </p>
             </>
           )}
         </section>
@@ -71,45 +75,45 @@ export default function Sidebar() {
 
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
           {/* alterar para admin */}
-          {isAdmin && (
-            <Link href={`/users?role=${role}`}>
-              <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
-                <Users className="ml-4" />
-                {sidebar && (
-                  <p className="ml-4 hidden shadow-2xl md:block">Users</p>
-                )}
-              </div>
-            </Link>
-          )}
+          {/* {isAdmin && ( */}
+          <Link href="/users">
+            <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
+              <Users className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden shadow-2xl md:block">Users</p>
+              )}
+            </div>
+          </Link>
+          {/* )} */}
 
-          {role === 'USER' && (
-            <Link href={`/permissions?role=${role}`}>
-              <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
-                <Unlock className="ml-4" />
-                {sidebar && <p className="ml-4 hidden md:block">Permissions</p>}
-              </div>
-            </Link>
-          )}
-          {role === 'USER' && (
-            <Link href={`/page1?role=${role}`}>
-              <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
-                <ClipboardCopy className="ml-4" />
-                {sidebar && (
-                  <p className="ml-4 hidden md:block">Lista de produtos</p>
-                )}
-              </div>
-            </Link>
-          )}
-          {role === 'USER' && (
-            <Link href={`/page1?role=${role}`}>
-              <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
-                <ClipboardEdit className="ml-4" />
-                {sidebar && (
-                  <p className="ml-4 hidden md:block">Lista de serviços</p>
-                )}
-              </div>
-            </Link>
-          )}
+          {/* {role === 'USER' && ( */}
+          <Link href="/permissions">
+            <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
+              <Unlock className="ml-4" />
+              {sidebar && <p className="ml-4 hidden md:block">Permissions</p>}
+            </div>
+          </Link>
+          {/* )} */}
+          {/* {role === 'USER' && ( */}
+          <Link href="">
+            <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
+              <ClipboardCopy className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden md:block">Lista de produtos</p>
+              )}
+            </div>
+          </Link>
+          {/* )} */}
+          {/* {role === 'USER' && ( */}
+          <Link href="">
+            <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
+              <ClipboardEdit className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden md:block">Lista de serviços</p>
+              )}
+            </div>
+          </Link>
+          {/* )} */}
         </ul>
 
         <button

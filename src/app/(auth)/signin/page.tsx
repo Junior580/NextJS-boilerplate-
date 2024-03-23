@@ -42,14 +42,17 @@ export default function SignIn() {
       return api.post('/auth', data)
     },
     onSuccess: (e) => {
+      // console.log(`🔥 ~ login: ${JSON.stringify(e.data.userInfo.name)}`)
       if (e.status === 204) {
         const { email } = JSON.parse(e.config.data)
 
         return router.push(`two-factor-auth?user=${email}`)
       }
+      localStorage.setItem('@GoBarber:user', JSON.stringify(e.data.userInfo))
+      const user = localStorage.getItem('@GoBarber:user')
+      console.log(`🔥 ~ user from localStorage: ${JSON.stringify(user)}`)
 
-      // console.log(`✅ ~ sucessfull login ~ ${JSON.stringify(e.data)}`)
-      return router.replace(`/dashboard?role=${e.data.role}`)
+      return router.replace('/dashboard')
     },
     onError: (e) => {
       console.log(`❌ ~ line 62 ~ errors: ${JSON.stringify(e)}`)
