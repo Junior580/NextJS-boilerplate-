@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/use-toast'
 
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import { useAuth } from '@/hooks/auth'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -23,7 +24,7 @@ type SignUpSchemaType = z.infer<typeof SignUpSchema>
 
 export default function SignIn() {
   const router = useRouter()
-  const { toast } = useToast()
+  // const { setAccessToken } = useAuth()
 
   const {
     control,
@@ -47,9 +48,8 @@ export default function SignIn() {
 
         return router.push(`two-factor-auth?user=${email}`)
       }
-      localStorage.setItem('@GoBarber:user', JSON.stringify(e.data.userInfo))
-      const user = localStorage.getItem('@GoBarber:user')
-      console.log(`🔥 ~ user from localStorage: ${JSON.stringify(user)}`)
+      localStorage.setItem('@user', JSON.stringify(e.data.userInfo))
+      localStorage.setItem('@token', JSON.stringify(e.data.refresh_token))
 
       return router.replace('/dashboard')
     },

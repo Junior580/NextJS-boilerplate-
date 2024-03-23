@@ -1,4 +1,5 @@
 import Sidebar from '@/components/Sidebar'
+import { useAuth } from '@/hooks/auth'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 

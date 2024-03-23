@@ -28,7 +28,9 @@ export default function Sidebar() {
   const [sidebar, toggleValue] = useToggle(true)
 
   const logout = async () => {
-    localStorage.removeItem('@GoBarber:user')
+    localStorage.removeItem('@user')
+    localStorage.removeItem('@token')
+
     await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
 

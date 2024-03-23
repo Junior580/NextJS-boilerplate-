@@ -13,10 +13,14 @@ interface User {
   email: string
   image: string
   role: 'USER' | 'ADMIN'
+  refresh_token: string
 }
 
 interface AuthContextData {
   user: User
+  setUserData: (user: User) => void
+  refreshToken: string
+  setRefreshToken: (acess_token: string) => void
 }
 
 interface AuthProviderProps {
@@ -26,19 +30,32 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [data, setData] = useState<User>({} as User)
-
-  useEffect(() => {
+  const [userData, setUserData] = useState<User>(() => {
     if (typeof window !== 'undefined') {
-      const userData = localStorage.getItem('@GoBarber:user')
-      if (userData) {
-        setData(JSON.parse(userData))
+      const user = localStorage.getItem('@user')
+
+      if (user) {
+        return JSON.parse(user)
       }
     }
-  }, [])
+    return {} as User
+  })
+
+  const [refreshToken, setRefreshToken] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('@token')
+
+      if (token) {
+        return JSON.parse(token)
+      }
+    }
+    return {} as User
+  })
 
   return (
-    <AuthContext.Provider value={{ user: data }}>
+    <AuthContext.Provider
+      value={{ user: userData, setUserData, refreshToken, setRefreshToken }}
+    >
       {children}
     </AuthContext.Provider>
   )

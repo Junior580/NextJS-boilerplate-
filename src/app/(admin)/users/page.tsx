@@ -4,7 +4,7 @@ import { Search, FileEdit, Trash } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import PaginationControl from '@/components/PaginationControl'
 import { useQuery } from 'react-query'
-import { ItemsEntity, getUsers } from '@/services/getUsers'
+import { ItemsEntity, useGetUsers } from '@/services/getUsers'
 import { Table, TableBody, TableCell } from '@/components/ui/table'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { format } from 'date-fns'
@@ -102,7 +102,7 @@ function Users() {
   const { data, isError, isLoading } = useQuery(
     ['user-list', pagination],
     () =>
-      getUsers({
+      useGetUsers({
         itemsPerPage: pagination.itemsPerPage,
         page: pagination.page,
         searchFilter: searchFilter,

@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query'
 import api from './api'
 
 type GetUserProps = {
@@ -26,7 +27,7 @@ type Data = {
   perPage: number
 }
 
-export async function getUsers({
+export async function useGetUsers({
   itemsPerPage,
   page,
   searchFilter,
@@ -37,3 +38,14 @@ export async function getUsers({
     )
     .then((response) => response.data)
 }
+
+// export function useGetPosts({
+//   itemsPerPage,
+//   page,
+//   searchFilter,
+// }: GetUserProps) {
+//   return useQuery({
+//     queryFn: async () => fetchPosts(),
+//     queryKey: ['posts'],
+//   })
+// }
