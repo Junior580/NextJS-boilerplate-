@@ -34,8 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router'
+import { withAuth } from '@/components/Auth'
 
 type PaginationProps = {
   page: number
@@ -54,7 +53,7 @@ const SignUpSchema = z.object({
 
 type SignUpType = z.infer<typeof SignUpSchema>
 
-export default function Users() {
+function Users() {
   //se o usuario nao enviar a permission no url, retonar que a pagina nao existe
   // const router = useRouter()
   // const searchParams = useSearchParams()
@@ -118,13 +117,6 @@ export default function Users() {
       </p>
     )
   }
-
-  // if (role === 'USER' || role === null)
-  //   return (
-  //     <p className="p-4 font-bold text-red-400 shadow-2xl">
-  //       Page does not exists
-  //     </p>
-  //   )
 
   return (
     <main className="p-4">
@@ -304,3 +296,5 @@ export default function Users() {
     </main>
   )
 }
+
+export default withAuth(Users, ['ADMIN', 'USER'])
