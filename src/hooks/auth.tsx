@@ -18,9 +18,7 @@ interface User {
 
 interface AuthContextData {
   user: User
-  setUserData: (user: User) => void
   refreshToken: string
-  setRefreshToken: (acess_token: string) => void
 }
 
 interface AuthProviderProps {
@@ -30,7 +28,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [userData, setUserData] = useState<User>(() => {
+  const [userData] = useState<User>(() => {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('@user')
 
@@ -41,7 +39,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return {} as User
   })
 
-  const [refreshToken, setRefreshToken] = useState(() => {
+  const [refreshToken] = useState(() => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('@token')
 
@@ -53,9 +51,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   })
 
   return (
-    <AuthContext.Provider
-      value={{ user: userData, setUserData, refreshToken, setRefreshToken }}
-    >
+    <AuthContext.Provider value={{ user: userData, refreshToken }}>
       {children}
     </AuthContext.Provider>
   )

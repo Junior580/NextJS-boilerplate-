@@ -27,15 +27,15 @@ type UserInfoProps = {
 
 export default function Sidebar() {
   const router = useRouter()
-  const [userInfo, setUserInfo] = useState<UserInfoProps>({} as UserInfoProps)
-
   const { user } = useAuth()
+  const [userInfo, setUserInfo] = useState<UserInfoProps>({} as UserInfoProps)
+  const [sidebar, toggleValue] = useToggle(true)
 
   useEffect(() => {
-    setUserInfo({ name: user.name, role: user.role })
-  }, [])
-
-  const [sidebar, toggleValue] = useToggle(true)
+    if (user) {
+      setUserInfo((prev) => ({ ...prev, name: user.name, role: user.role }))
+    }
+  }, [user])
 
   const logout = async () => {
     if (typeof window !== 'undefined') {

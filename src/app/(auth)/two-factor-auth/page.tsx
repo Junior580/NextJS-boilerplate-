@@ -59,7 +59,15 @@ export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
         code: pin,
       })
     },
-    onSuccess: () => {
+    onSuccess: (e) => {
+      if (e.status === 204) {
+        const { email } = JSON.parse(e.config.data)
+
+        return router.push(`two-factor-auth?user=${email}`)
+      }
+      localStorage.setItem('@user', JSON.stringify(e.data.userInfo))
+      localStorage.setItem('@token', JSON.stringify(e.data.refresh_token))
+
       return router.replace('/users')
     },
   })
