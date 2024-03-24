@@ -9,11 +9,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
-import { useToast } from '@/components/ui/use-toast'
 
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
-import { useAuth } from '@/hooks/auth'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -24,7 +23,8 @@ type SignUpSchemaType = z.infer<typeof SignUpSchema>
 
 export default function SignIn() {
   const router = useRouter()
-  // const { setAccessToken } = useAuth()
+  const { setItem: setUser } = useLocalStorage('@user')
+  const { setItem: setToken } = useLocalStorage('@token')
 
   const {
     control,
@@ -48,8 +48,10 @@ export default function SignIn() {
 
         return router.push(`two-factor-auth?user=${email}`)
       }
-      localStorage.setItem('@user', JSON.stringify(e.data.userInfo))
-      localStorage.setItem('@token', JSON.stringify(e.data.refresh_token))
+      // localStorage.setItem('@user', JSON.stringify(e.data.userInfo))
+      // localStorage.setItem('@token', JSON.stringify(e.data.refresh_token))
+      setUser(e.data.userInfo)
+      setToken(e.data.refresh_token)
 
       return router.replace('/dashboard')
     },
