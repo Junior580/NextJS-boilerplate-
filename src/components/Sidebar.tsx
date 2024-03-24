@@ -16,20 +16,32 @@ import api from '@/services/api'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from '@/lib/capitalizeFirstLetter'
 import { useAuth } from '@/hooks/auth'
 
+type UserInfoProps = {
+  name: string
+  role: string
+}
+
 export default function Sidebar() {
   const router = useRouter()
+  const [userInfo, setUserInfo] = useState<UserInfoProps>({} as UserInfoProps)
 
   const { user } = useAuth()
+
+  useEffect(() => {
+    setUserInfo({ name: user.name, role: user.role })
+  }, [])
 
   const [sidebar, toggleValue] = useToggle(true)
 
   const logout = async () => {
-    localStorage.removeItem('@user')
-    localStorage.removeItem('@token')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('@user')
+      localStorage.removeItem('@token')
+    }
 
     await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
@@ -53,10 +65,10 @@ export default function Sidebar() {
                 className="hidden rounded-full border-2 border-primary md:block"
               />
               <p className="font-bold text-primary">
-                {capitalizeFirstLetter(user?.name)}
+                {capitalizeFirstLetter(userInfo.name)}
               </p>
               <p className="font-semibold text-primary">
-                {capitalizeFirstLetter(user?.role)}
+                {capitalizeFirstLetter(userInfo.role)}
               </p>
             </>
           )}
@@ -77,17 +89,17 @@ export default function Sidebar() {
         </button>
 
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
-          {user?.role === 'ADMIN' ||
-            (user.role === 'USER' && (
-              <Link href="/users">
-                <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
-                  <Users className="ml-4" />
-                  {sidebar && (
-                    <p className="ml-4 hidden shadow-2xl md:block">Users</p>
-                  )}
-                </div>
-              </Link>
-            ))}
+          {/* {user?.role === 'ADMIN' ||
+            (user.role === 'USER' && ( */}
+          <Link href="/users">
+            <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
+              <Users className="ml-4" />
+              {sidebar && (
+                <p className="ml-4 hidden shadow-2xl md:block">Users</p>
+              )}
+            </div>
+          </Link>
+          {/* ))} */}
           {/* {role === 'USER' && ( */}
           <Link href="/permissions">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">

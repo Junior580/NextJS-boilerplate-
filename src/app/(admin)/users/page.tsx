@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { withAuth } from '@/components/Auth'
+import { withAuth } from '@/components/WithAuth'
 
 type PaginationProps = {
   page: number
@@ -54,10 +54,6 @@ const SignUpSchema = z.object({
 type SignUpType = z.infer<typeof SignUpSchema>
 
 function Users() {
-  //se o usuario nao enviar a permission no url, retonar que a pagina nao existe
-  // const router = useRouter()
-  // const searchParams = useSearchParams()
-  // const role = searchParams.get('role')
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -297,4 +293,4 @@ function Users() {
   )
 }
 
-export default withAuth(Users, ['ADMIN', 'USER'])
+export default withAuth(Users, ['ADMIN'])
