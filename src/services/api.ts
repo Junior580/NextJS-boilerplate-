@@ -1,7 +1,8 @@
 import axios, { AxiosError } from 'axios'
+import { env } from '../../env'
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
 })
 

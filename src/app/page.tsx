@@ -13,6 +13,7 @@ import Link from 'next/link'
 
 export default function Home() {
   const { setTheme } = useTheme()
+
   return (
     <main className="flex h-screen flex-col items-center ">
       <div className="mr-4 mt-4 flex w-full flex-col items-end gap-2">
