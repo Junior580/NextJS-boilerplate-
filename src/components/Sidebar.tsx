@@ -91,7 +91,7 @@ export default function Sidebar() {
         <ul className=" mt-8 flex w-full flex-1 flex-col items-start gap-2">
           {/* {user?.role === 'ADMIN' ||
             (user.role === 'USER' && ( */}
-          <Link href="/users">
+          <Link href="/user">
             <div className="hover:text-primary_hover flex  py-1  text-primary duration-150 ease-in-out ">
               <Users className="ml-4" />
               {sidebar && (
@@ -101,7 +101,7 @@ export default function Sidebar() {
           </Link>
           {/* ))} */}
           {/* {role === 'USER' && ( */}
-          <Link href="/permissions">
+          <Link href="/permission">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
               <Unlock className="ml-4" />
               {sidebar && <p className="ml-4 hidden md:block">Permissions</p>}
@@ -109,7 +109,7 @@ export default function Sidebar() {
           </Link>
           {/* )} */}
           {/* {role === 'USER' && ( */}
-          <Link href="">
+          <Link href="/product">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
               <ClipboardCopy className="ml-4" />
               {sidebar && (
