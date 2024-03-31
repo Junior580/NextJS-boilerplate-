@@ -31,13 +31,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import formatCurrency from '@/lib/formatCurrency'
 import formatDate from '@/lib/formatDate'
 import { useGetSupplier } from '@/services/getSupplier'
 import { FileEdit, Search, Trash } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useQuery } from 'react-query'
 import Link from 'next/link'
+import { Separator } from '@/components/ui/separator'
 
 type PaginationProps = {
   page: number
@@ -66,7 +66,7 @@ export default function Supplier() {
   )
 
   const { data, isError, isLoading } = useQuery(
-    ['product-list', pagination],
+    ['supplier-list', pagination],
     () =>
       useGetSupplier({
         itemsPerPage: pagination.itemsPerPage,
@@ -85,19 +85,11 @@ export default function Supplier() {
   }
   return (
     <main className="p-4">
-      <section className="flex w-full items-center justify-between rounded-lg  px-4 py-3">
+      <section className="flex  w-full items-center justify-between rounded-lg bg-yellow-500 px-4 py-3">
         {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
         {!isLoading && (
           <Breadcrumb>
             <BreadcrumbList>
-              {/* <BreadcrumbItem>
-                <BreadcrumbLink href="/product">Produtos</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator /> */}
               <BreadcrumbItem>
                 <BreadcrumbPage>Fornecedores</BreadcrumbPage>
               </BreadcrumbItem>
@@ -124,14 +116,21 @@ export default function Supplier() {
             )}
           </div>
           <div>
-            <Button asChild>
-              <Link href="/supplier/create">Cadastrar fornecedor</Link>
-            </Button>
+            {isLoading && (
+              <Skeleton className="h-[20px] w-[100px] rounded-md" />
+            )}
+            {!isLoading && (
+              <Button asChild>
+                <Link href="/supplier/create">Cadastrar fornecedor</Link>
+              </Button>
+            )}
           </div>
         </div>
       </section>
 
-      <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
+      <Separator className="my-4" />
+
+      <section className="relative rounded-3xl shadow-md  sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
             {isLoading && (
@@ -307,6 +306,8 @@ export default function Supplier() {
           </TableBody>
         </Table>
       </section>
+
+      <Separator className="my-4" />
 
       <PaginationControl
         currentPage={data?.currentPage ?? 1}
