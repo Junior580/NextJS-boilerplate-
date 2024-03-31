@@ -1,6 +1,7 @@
+import { useQuery } from 'react-query'
 import api from './api'
 
-type GetProductProps = {
+type GetSupplierProps = {
   itemsPerPage: number
   page: number
   searchFilter: string
@@ -9,11 +10,8 @@ type GetProductProps = {
 export type ItemsEntity = {
   id: string
   name: string
-  description: string
-  quantityStock: number
-  unitPurchasePrice: number
-  unitSalesPrice: number
-  supplier: string | null
+  contact: string
+  phone: string
   createdAt: string
 }
 
@@ -25,14 +23,14 @@ type Data = {
   perPage: number
 }
 
-export async function useGetProducts({
+export async function useGetSupplier({
   itemsPerPage,
   page,
   searchFilter,
-}: GetProductProps) {
+}: GetSupplierProps) {
   return api
     .get<Data>(
-      `/list-product?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
+      `/list-supplier?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
     )
     .then((response) => response.data)
 }

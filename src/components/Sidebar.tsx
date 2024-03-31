@@ -112,19 +112,15 @@ export default function Sidebar() {
           <Link href="/product">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
               <ClipboardCopy className="ml-4" />
-              {sidebar && (
-                <p className="ml-4 hidden md:block">Lista de produtos</p>
-              )}
+              {sidebar && <p className="ml-4 hidden md:block">Produtos</p>}
             </div>
           </Link>
           {/* )} */}
           {/* {role === 'USER' && ( */}
-          <Link href="">
+          <Link href="/supplier">
             <div className="hover:text-primary_hover flex  py-1 text-primary duration-150 ease-in-out">
               <ClipboardEdit className="ml-4" />
-              {sidebar && (
-                <p className="ml-4 hidden md:block">Lista de serviços</p>
-              )}
+              {sidebar && <p className="ml-4 hidden md:block">Fornecedores</p>}
             </div>
           </Link>
           {/* )} */}
