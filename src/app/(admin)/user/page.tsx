@@ -7,7 +7,6 @@ import { useQuery } from 'react-query'
 import { ItemsEntity, useGetUsers } from '@/services/getUser'
 import { Table, TableBody, TableCell } from '@/components/ui/table'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { format } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
 import {
   Dialog,
@@ -36,6 +35,7 @@ import {
 } from '@/components/ui/select'
 import { withAuth } from '@/components/WithAuth'
 import { Skeleton } from '@/components/ui/skeleton'
+import formatDate from '@/lib/formatDate'
 
 type PaginationProps = {
   page: number
@@ -76,10 +76,6 @@ function Users() {
     },
     [],
   )
-
-  const formatDate = useCallback((dateProp: string) => {
-    return format(dateProp, "dd/MM/yyyy 'às' HH:mm:ss")
-  }, [])
 
   const {
     control,
@@ -140,49 +136,49 @@ function Users() {
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
             <TableRow>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Id</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Name</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>E-mail</>}
               </TableHead>
-              <TableHead className="px-6 py-3 text-center">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Verified E-mail</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Two Factor Auth</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Role</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Created At</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
@@ -195,7 +191,7 @@ function Users() {
             {isLoading && (
               <>
                 <TableRow>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
                   <TableCell className="px-6 py-3">
@@ -254,138 +250,142 @@ function Users() {
                 </TableRow>
               </>
             )}
-            {data?.items?.map((item) => (
-              <TableRow
-                key={item.id}
-                className="whitespace-nowrap  px-6  py-4 font-medium"
-              >
-                <TableCell className="font-medium">
-                  {item.id.split('-')[0]}
-                </TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.email}</TableCell>
+            {!isLoading &&
+              data?.items?.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.id.split('-')[0]}</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.email}</TableCell>
 
-                <TableCell className="text-center">
-                  {item.emailVerified ? formatDate(item.emailVerified) : 'Não'}
-                </TableCell>
-                <TableCell className="text-center">
-                  <Badge
-                    className={
-                      item.isTwoFactorEnabled ? 'bg-green-400' : 'bg-red-400'
-                    }
-                  >
-                    {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    className={
-                      item.role === 'ADMIN' ? 'bg-green-400' : 'bg-blue-400'
-                    }
-                  >
-                    {item.role}
-                  </Badge>
-                </TableCell>
-                <TableCell>{formatDate(item.createdAt)}</TableCell>
-                <TableCell className="flex items-center justify-center">
-                  <Dialog>
-                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                      <FileEdit />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          Editar o usuario {item.name} ?
-                        </DialogTitle>
-                      </DialogHeader>
-                      <form className="flex flex-col gap-2">
-                        <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Name</Label>
-                          <Input
-                            type="text"
-                            className="w-full"
-                            defaultValue={item.name}
-                          />
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Email</Label>
-                          <Input
-                            type="text"
-                            className="w-full"
-                            defaultValue={item.email}
-                          />
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">2FA</Label>
-                          <Select>
-                            <SelectTrigger className="w-full">
-                              <SelectValue
-                                placeholder={
-                                  item.isTwoFactorEnabled ? 'Sim' : 'Não'
-                                }
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="true">Sim</SelectItem>
-                              <SelectItem value="false">Não</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Role</Label>
-                          <Select>
-                            <SelectTrigger className="w-full">
-                              <SelectValue
-                                placeholder={
-                                  item.role === 'ADMIN' ? 'Admin' : 'User'
-                                }
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="ADMIN">Admin</SelectItem>
-                              <SelectItem value="USER">User</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
+                  <TableCell>
+                    {item.emailVerified
+                      ? formatDate(item.emailVerified)
+                      : 'Não'}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      className={
+                        item.isTwoFactorEnabled ? 'bg-green-400' : 'bg-red-400'
+                      }
+                    >
+                      {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      className={
+                        item.role === 'ADMIN' ? 'bg-green-400' : 'bg-blue-400'
+                      }
+                    >
+                      {item.role}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{formatDate(item.createdAt)}</TableCell>
+                  <TableCell>
+                    <Dialog>
+                      <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                        <FileEdit />
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>
+                            Editar o usuario {item.name} ?
+                          </DialogTitle>
+                        </DialogHeader>
+                        <form className="flex flex-col gap-2">
+                          <div className="flex items-center gap-4">
+                            <Label className="inline-block w-[60px]">
+                              Name
+                            </Label>
+                            <Input
+                              type="text"
+                              className="w-full"
+                              defaultValue={item.name}
+                            />
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <Label className="inline-block w-[60px]">
+                              Email
+                            </Label>
+                            <Input
+                              type="text"
+                              className="w-full"
+                              defaultValue={item.email}
+                            />
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <Label className="inline-block w-[60px]">2FA</Label>
+                            <Select>
+                              <SelectTrigger className="w-full">
+                                <SelectValue
+                                  placeholder={
+                                    item.isTwoFactorEnabled ? 'Sim' : 'Não'
+                                  }
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="true">Sim</SelectItem>
+                                <SelectItem value="false">Não</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <Label className="inline-block w-[60px]">
+                              Role
+                            </Label>
+                            <Select>
+                              <SelectTrigger className="w-full">
+                                <SelectValue
+                                  placeholder={
+                                    item.role === 'ADMIN' ? 'Admin' : 'User'
+                                  }
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="ADMIN">Admin</SelectItem>
+                                <SelectItem value="USER">User</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
 
-                        <DialogFooter className="mt-2 flex w-full justify-between gap-2">
-                          <Button
-                            type="submit"
-                            variant="default"
-                            className="w-full"
-                            onClick={() => console.log('usuario editado')}
-                          >
-                            Salvar
-                          </Button>
-                          <DialogClose asChild>
-                            <Button variant="outline" className="w-full">
-                              Cancelar
+                          <DialogFooter className="mt-2 flex w-full justify-between gap-2">
+                            <Button
+                              type="submit"
+                              variant="default"
+                              className="w-full"
+                              onClick={() => console.log('usuario editado')}
+                            >
+                              Salvar
                             </Button>
-                          </DialogClose>
-                        </DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                  <Dialog>
-                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                      <Trash />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          Deletar o usuario {item.name}?
-                        </DialogTitle>
-                        <DialogDescription>
-                          This action cannot be undone. This will permanently
-                          delete your account and remove your data from our
-                          servers.
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </TableCell>
-              </TableRow>
-            ))}
+                            <DialogClose asChild>
+                              <Button variant="outline" className="w-full">
+                                Cancelar
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
+                    <Dialog>
+                      <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                        <Trash />
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>
+                            Deletar o usuario {item.name}?
+                          </DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete your account and remove your data from our
+                            servers.
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </section>
@@ -401,4 +401,4 @@ function Users() {
   )
 }
 
-export default withAuth(Users, ['ADMIN'])
+export default withAuth(Users, ['ADMIN', 'USER'])

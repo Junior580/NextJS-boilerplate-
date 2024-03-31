@@ -34,6 +34,8 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import formatCurrency from '@/lib/formatCurrency'
+import formatDate from '@/lib/formatDate'
 
 type PaginationProps = {
   page: number
@@ -105,55 +107,55 @@ export default function Product() {
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
             <TableRow>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Id</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Nome</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Descrição</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Qtd. em estoque</>}
               </TableHead>
-              <TableHead className="px-6 py-3 text-center">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Preço unitário de compra</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Preço unitário de venda</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Fornecedor</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
                 {!isLoading && <>Created At</>}
               </TableHead>
-              <TableHead className="px-6 py-3">
+              <TableHead>
                 {isLoading && (
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
                 )}
@@ -166,60 +168,60 @@ export default function Product() {
             {isLoading && (
               <>
                 <TableRow>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
                 </TableRow>
                 <TableRow className="whitespace-nowrap  px-6  py-4 font-medium">
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
                 </TableRow>
@@ -230,18 +232,20 @@ export default function Product() {
                 key={item.id}
                 className="whitespace-nowrap  px-6  py-4 font-medium"
               >
-                <TableCell className="font-medium">
-                  {item.id.split('-')[0]}
-                </TableCell>
+                <TableCell>{item.id.split('-')[0]}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{item.quantityStock}</TableCell>
-                <TableCell>{item.unitPurchasePrice}</TableCell>
-                <TableCell>{item.unitSalesPrice}</TableCell>
+                <TableCell>
+                  {formatCurrency(String(item.unitPurchasePrice))}
+                </TableCell>
+                <TableCell>
+                  {formatCurrency(`${item.unitSalesPrice}`)}
+                </TableCell>
                 <TableCell>{item.supplier ?? 'Desconhecido'}</TableCell>
-                <TableCell>{item.createdAt}</TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
 
-                <TableCell className="flex items-center justify-center">
+                <TableCell>
                   <Dialog>
                     <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
                       <FileEdit />
@@ -249,12 +253,12 @@ export default function Product() {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle>
-                          Editar o usuario {item.name} ?
+                          Deseja editar o Produto {item.name} ?
                         </DialogTitle>
                       </DialogHeader>
                       <form className="flex flex-col gap-2">
                         <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Name</Label>
+                          <Label className="inline-block w-[90px]">Name</Label>
                           <Input
                             type="text"
                             className="w-full"
@@ -262,36 +266,54 @@ export default function Product() {
                           />
                         </div>
                         <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Email</Label>
+                          <Label className="inline-block w-[90px]">
+                            Descrição
+                          </Label>
                           <Input
                             type="text"
                             className="w-full"
-                            // defaultValue={item.email}
+                            defaultValue={item.description}
                           />
                         </div>
                         <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">2FA</Label>
-                          <Select>
-                            <SelectTrigger className="w-full">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="true">Sim</SelectItem>
-                              <SelectItem value="false">Não</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Label className="inline-block w-[90px]">
+                            Qtd em estoque
+                          </Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.quantityStock}
+                          />
                         </div>
                         <div className="flex items-center gap-4">
-                          <Label className="inline-block w-[60px]">Role</Label>
-                          <Select>
-                            <SelectTrigger className="w-full">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="ADMIN">Admin</SelectItem>
-                              <SelectItem value="USER">User</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Label className="inline-block w-[90px]">
+                            Preço de compra
+                          </Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.unitPurchasePrice}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[90px]">
+                            Preço de venda
+                          </Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.unitSalesPrice}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[90px]">
+                            Fornecedor
+                          </Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.supplier ?? 'desconhecido'}
+                          />
                         </div>
 
                         <DialogFooter className="mt-2 flex w-full justify-between gap-2">
