@@ -17,10 +17,10 @@ export function withAuth<P extends object>(
 
     const [isAuth, setIsAuth] = useState(false)
 
+    const isAuthenticated = role.includes(user.role)
+
     useEffect(() => {
       const getUser = async () => {
-        const isAuthenticated = role.includes(user.role)
-
         if (!isAuthenticated) {
           router.push('/dashboard')
         } else {
@@ -28,7 +28,7 @@ export function withAuth<P extends object>(
         }
       }
       getUser()
-    }, [router])
+    }, [isAuthenticated, router])
 
     return !!isAuth ? <Component {...props} /> : null
   }
