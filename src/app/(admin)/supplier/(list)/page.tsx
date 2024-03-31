@@ -131,7 +131,7 @@ export default function Supplier() {
 
       <Separator className="my-4" />
 
-      <section className="relative rounded-3xl shadow-md  sm:rounded-lg">
+      <section className="relative max-h-[75vh] overflow-y-auto  rounded-3xl shadow-md sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
             {isLoading && (
