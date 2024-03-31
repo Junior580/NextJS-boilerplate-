@@ -106,62 +106,50 @@ export default function Product() {
       <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
-            <TableRow>
-              <TableHead>
-                {isLoading && (
+            {isLoading && (
+              <TableRow>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Id</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Nome</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Descrição</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Qtd. em estoque</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Preço unitário de compra</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Preço unitário de venda</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Fornecedor</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Created At</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Actions</>}
-              </TableHead>
-            </TableRow>
+                </TableHead>
+              </TableRow>
+            )}
+            {!isLoading && (
+              <TableRow>
+                <TableHead>Id</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead>Descrição</TableHead>
+                <TableHead>Qtd. em estoque</TableHead>
+                <TableHead>Preço unitário de compra</TableHead>
+                <TableHead>Preço unitário de venda</TableHead>
+                <TableHead>Fornecedor</TableHead>
+                <TableHead>Created At</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            )}
           </TableHeader>
 
           <TableBody>

@@ -32,7 +32,7 @@ export default function PaginationControl({
 }: PaginationControlProps) {
   return (
     <div className="m-0 flex justify-end gap-4 px-4 py-3">
-      {isLoading && <Skeleton className="h-[30px] w-[120px] rounded-md" />}
+      {isLoading && <Skeleton className="h-[40px] w-[220px] rounded-md" />}
       {!isLoading && (
         <>
           <select

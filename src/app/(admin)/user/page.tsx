@@ -54,7 +54,7 @@ const SignUpSchema = z.object({
 
 type SignUpType = z.infer<typeof SignUpSchema>
 
-function Users() {
+export default function User() {
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
     null,
@@ -135,56 +135,46 @@ function Users() {
       <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
           <TableHeader className=" text-xs uppercase ">
-            <TableRow>
-              <TableHead>
-                {isLoading && (
+            {isLoading && (
+              <TableRow>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Id</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Name</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>E-mail</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Verified E-mail</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Two Factor Auth</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Role</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Created At</>}
-              </TableHead>
-              <TableHead>
-                {isLoading && (
+                </TableHead>
+                <TableHead>
                   <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                )}
-                {!isLoading && <>Actions</>}
-              </TableHead>
-            </TableRow>
+                </TableHead>
+              </TableRow>
+            )}
+            {!isLoading && (
+              <TableRow>
+                <TableHead>Id</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>E-mail</TableHead>
+                <TableHead>Verified E-mail</TableHead>
+                <TableHead>Two Factor Auth</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Created At</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            )}
           </TableHeader>
 
           <TableBody>
@@ -194,198 +184,183 @@ function Users() {
                   <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
-                    <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                  </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
                 </TableRow>
                 <TableRow className="whitespace-nowrap  px-6  py-4 font-medium">
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
-                  <TableCell className="px-6 py-3">
-                    <Skeleton className="h-[20px] w-[90px] rounded-md" />
-                  </TableCell>
-                  <TableCell className="px-6 py-3">
+                  <TableCell>
                     <Skeleton className="h-[20px] w-[90px] rounded-md" />
                   </TableCell>
                 </TableRow>
               </>
             )}
-            {!isLoading &&
-              data?.items?.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.id.split('-')[0]}</TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.email}</TableCell>
+            {data?.items?.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id.split('-')[0]}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.email}</TableCell>
 
-                  <TableCell>
-                    {item.emailVerified
-                      ? formatDate(item.emailVerified)
-                      : 'Não'}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      className={
-                        item.isTwoFactorEnabled ? 'bg-green-400' : 'bg-red-400'
-                      }
-                    >
-                      {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      className={
-                        item.role === 'ADMIN' ? 'bg-green-400' : 'bg-blue-400'
-                      }
-                    >
-                      {item.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{formatDate(item.createdAt)}</TableCell>
-                  <TableCell>
-                    <Dialog>
-                      <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                        <FileEdit />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>
-                            Editar o usuario {item.name} ?
-                          </DialogTitle>
-                        </DialogHeader>
-                        <form className="flex flex-col gap-2">
-                          <div className="flex items-center gap-4">
-                            <Label className="inline-block w-[60px]">
-                              Name
-                            </Label>
-                            <Input
-                              type="text"
-                              className="w-full"
-                              defaultValue={item.name}
-                            />
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <Label className="inline-block w-[60px]">
-                              Email
-                            </Label>
-                            <Input
-                              type="text"
-                              className="w-full"
-                              defaultValue={item.email}
-                            />
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <Label className="inline-block w-[60px]">2FA</Label>
-                            <Select>
-                              <SelectTrigger className="w-full">
-                                <SelectValue
-                                  placeholder={
-                                    item.isTwoFactorEnabled ? 'Sim' : 'Não'
-                                  }
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="true">Sim</SelectItem>
-                                <SelectItem value="false">Não</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <Label className="inline-block w-[60px]">
-                              Role
-                            </Label>
-                            <Select>
-                              <SelectTrigger className="w-full">
-                                <SelectValue
-                                  placeholder={
-                                    item.role === 'ADMIN' ? 'Admin' : 'User'
-                                  }
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="ADMIN">Admin</SelectItem>
-                                <SelectItem value="USER">User</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                <TableCell>
+                  {item.emailVerified ? formatDate(item.emailVerified) : 'Não'}
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    className={
+                      item.isTwoFactorEnabled ? 'bg-green-400' : 'bg-red-400'
+                    }
+                  >
+                    {item.isTwoFactorEnabled ? 'Sim' : 'Não'}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    className={
+                      item.role === 'ADMIN' ? 'bg-green-400' : 'bg-blue-400'
+                    }
+                  >
+                    {item.role}
+                  </Badge>
+                </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
+                <TableCell>
+                  <Dialog>
+                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                      <FileEdit />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          Editar o usuario {item.name} ?
+                        </DialogTitle>
+                      </DialogHeader>
+                      <form className="flex flex-col gap-2">
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Name</Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.name}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Email</Label>
+                          <Input
+                            type="text"
+                            className="w-full"
+                            defaultValue={item.email}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">2FA</Label>
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue
+                                placeholder={
+                                  item.isTwoFactorEnabled ? 'Sim' : 'Não'
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="true">Sim</SelectItem>
+                              <SelectItem value="false">Não</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label className="inline-block w-[60px]">Role</Label>
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue
+                                placeholder={
+                                  item.role === 'ADMIN' ? 'Admin' : 'User'
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ADMIN">Admin</SelectItem>
+                              <SelectItem value="USER">User</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                          <DialogFooter className="mt-2 flex w-full justify-between gap-2">
-                            <Button
-                              type="submit"
-                              variant="default"
-                              className="w-full"
-                              onClick={() => console.log('usuario editado')}
-                            >
-                              Salvar
+                        <DialogFooter className="mt-2 flex w-full justify-between gap-2">
+                          <Button
+                            type="submit"
+                            variant="default"
+                            className="w-full"
+                            onClick={() => console.log('usuario editado')}
+                          >
+                            Salvar
+                          </Button>
+                          <DialogClose asChild>
+                            <Button variant="outline" className="w-full">
+                              Cancelar
                             </Button>
-                            <DialogClose asChild>
-                              <Button variant="outline" className="w-full">
-                                Cancelar
-                              </Button>
-                            </DialogClose>
-                          </DialogFooter>
-                        </form>
-                      </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                      <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
-                        <Trash />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>
-                            Deletar o usuario {item.name}?
-                          </DialogTitle>
-                          <DialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete your account and remove your data from our
-                            servers.
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
-                </TableRow>
-              ))}
+                          </DialogClose>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
+                      <Trash />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          Deletar o usuario {item.name}?
+                        </DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </section>
@@ -401,4 +376,4 @@ function Users() {
   )
 }
 
-export default withAuth(Users, ['ADMIN', 'USER'])
+// export default withAuth(Users, ['ADMIN', 'USER'])
