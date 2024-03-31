@@ -54,11 +54,8 @@ const SignUpSchema = z.object({
 
 type SignUpType = z.infer<typeof SignUpSchema>
 
-export default function User() {
+function User() {
   const [searchFilter, setSearchFilter] = useState<string>('')
-  const [selectedUserData, setSelectedUserData] = useState<ItemsEntity | null>(
-    null,
-  )
 
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
@@ -134,7 +131,7 @@ export default function User() {
       </section>
       <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
-          <TableHeader className=" text-xs uppercase ">
+          <TableHeader>
             {isLoading && (
               <TableRow>
                 <TableHead>
@@ -376,4 +373,4 @@ export default function User() {
   )
 }
 
-// export default withAuth(Users, ['ADMIN', 'USER'])
+export default withAuth(User, ['ADMIN', 'USER'])

@@ -1,31 +1,35 @@
 'use client'
-
+import type { NextPage } from 'next'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
-import { ComponentType, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type Role = 'ADMIN' | 'USER'
 
 export function withAuth<P extends object>(
-  Component: ComponentType<P>,
+  Component: NextPage<P>,
   role: Role[],
 ) {
   return function WithAuth(props: P) {
     const { user } = useAuth()
 
     const router = useRouter()
-    const isAuthenticated = role.includes(user.role)
+
+    const [isAuth, setIsAuth] = useState(false)
 
     useEffect(() => {
-      if (!isAuthenticated) {
-        router.replace('/dashboard')
+      const getUser = async () => {
+        const isAuthenticated = role.includes(user.role)
+
+        if (!isAuthenticated) {
+          router.push('/dashboard')
+        } else {
+          setIsAuth(true)
+        }
       }
-    }, [isAuthenticated, router])
+      getUser()
+    }, [router])
 
-    if (!isAuthenticated) {
-      return null
-    }
-
-    return <Component {...props} />
+    return !!isAuth ? <Component {...props} /> : null
   }
 }

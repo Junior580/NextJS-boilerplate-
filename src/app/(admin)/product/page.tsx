@@ -36,6 +36,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import formatCurrency from '@/lib/formatCurrency'
 import formatDate from '@/lib/formatDate'
+import { withAuth } from '@/components/WithAuth'
 
 type PaginationProps = {
   page: number
@@ -44,7 +45,7 @@ type PaginationProps = {
   lastPage: number
 }
 
-export default function Product() {
+function Product() {
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
@@ -356,3 +357,5 @@ export default function Product() {
     </main>
   )
 }
+
+export default withAuth(Product, ['ADMIN', 'USER'])
