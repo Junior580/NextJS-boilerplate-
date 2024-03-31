@@ -15,6 +15,7 @@ export type ItemsEntity = {
   unitPurchasePrice: number
   unitSalesPrice: number
   supplier: string | null
+  createdAt: string
 }
 
 type Data = {
@@ -36,14 +37,3 @@ export async function useGetProducts({
     )
     .then((response) => response.data)
 }
-
-// export function useGetPosts({
-//   itemsPerPage,
-//   page,
-//   searchFilter,
-// }: GetUserProps) {
-//   return useQuery({
-//     queryFn: async () => fetchPosts(),
-//     queryKey: ['posts'],
-//   })
-// }

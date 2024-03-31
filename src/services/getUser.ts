@@ -38,14 +38,3 @@ export async function useGetUsers({
     )
     .then((response) => response.data)
 }
-
-// export function useGetPosts({
-//   itemsPerPage,
-//   page,
-//   searchFilter,
-// }: GetUserProps) {
-//   return useQuery({
-//     queryFn: async () => fetchPosts(),
-//     queryKey: ['posts'],
-//   })
-// }
