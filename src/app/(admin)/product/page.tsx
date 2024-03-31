@@ -37,6 +37,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import formatCurrency from '@/lib/formatCurrency'
 import formatDate from '@/lib/formatDate'
 import { withAuth } from '@/components/WithAuth'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 
 type PaginationProps = {
   page: number
@@ -87,7 +95,24 @@ function Product() {
     <main className="p-4">
       <section className="flex w-full items-center justify-between rounded-lg px-4 py-3">
         {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
-        {!isLoading && <h1 className="font-bold">Produtos</h1>}
+        {/* {!isLoading && <h1 className="font-bold">Produtos</h1>} */}
+        {!isLoading && (
+          <Breadcrumb>
+            <BreadcrumbList>
+              {/* <BreadcrumbItem>
+                <BreadcrumbLink href="/product">Produtos</BreadcrumbLink>
+              </BreadcrumbItem> */}
+              {/* <BreadcrumbSeparator /> */}
+              {/* <BreadcrumbItem>
+                <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+              </BreadcrumbItem> */}
+              {/* <BreadcrumbSeparator /> */}
+              <BreadcrumbItem>
+                <BreadcrumbPage>Produtos</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        )}
         <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
           {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
           {!isLoading && (
