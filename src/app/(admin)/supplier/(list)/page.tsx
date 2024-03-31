@@ -115,6 +115,7 @@ export default function Supplier() {
               </>
             )}
           </div>
+
           <div>
             {isLoading && (
               <Skeleton className="h-[20px] w-[100px] rounded-md" />

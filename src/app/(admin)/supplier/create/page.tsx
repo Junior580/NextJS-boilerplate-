@@ -43,7 +43,7 @@ export default function CreateSupplier() {
     resolver: zodResolver(SupplierSchema),
   })
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (data: SupplierSchemaType) => {
       return api.post('/supplier', {
         ...data,
@@ -53,7 +53,7 @@ export default function CreateSupplier() {
     onSuccess: (e) => {
       toast({
         variant: 'default',
-        title: 'Cadastro realizado com sucesso',
+        title: 'Fornecedor cadastrado com sucesso',
         description: formatDate(e.data.createdAt),
       })
       return

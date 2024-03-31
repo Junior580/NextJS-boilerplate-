@@ -45,6 +45,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import Link from 'next/link'
 
 type PaginationProps = {
   page: number
@@ -113,20 +114,36 @@ function Product() {
             </BreadcrumbList>
           </Breadcrumb>
         )}
-        <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
-          {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
-          {!isLoading && (
-            <>
-              <input
-                type="search"
-                placeholder="Search Data..."
-                className="w-full rounded-xl border-none bg-transparent px-1 py-2 outline-none"
-                value={searchFilter}
-                onChange={(e) => setSearchFilter(e.target.value)}
-              />
-              <Search />
-            </>
-          )}
+
+        <div className="mr-6 flex w-52 flex-col items-center gap-4">
+          <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
+            {isLoading && (
+              <Skeleton className="h-[20px] w-[100px] rounded-md" />
+            )}
+            {!isLoading && (
+              <>
+                <input
+                  type="search"
+                  placeholder="Search Data..."
+                  className="w-full rounded-xl border-none bg-transparent px-1 py-2 outline-none"
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                />
+                <Search />
+              </>
+            )}
+          </div>
+
+          <div>
+            {isLoading && (
+              <Skeleton className="h-[20px] w-[100px] rounded-md" />
+            )}
+            {!isLoading && (
+              <Button asChild>
+                <Link href="/product/create">Cadastrar Produto</Link>
+              </Button>
+            )}
+          </div>
         </div>
       </section>
       <section className="rounded-3xlshadow-md relative  sm:rounded-lg">
@@ -335,7 +352,7 @@ function Product() {
                             type="submit"
                             variant="default"
                             className="w-full"
-                            onClick={() => console.log('usuario editado')}
+                            onClick={() => console.log('produto atualizado')}
                           >
                             Salvar
                           </Button>
