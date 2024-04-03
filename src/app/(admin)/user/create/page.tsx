@@ -93,7 +93,7 @@ export default function CreateUser() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/user">Fornecedores</BreadcrumbLink>
+              <BreadcrumbLink href="/user">Usuarios</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
 
