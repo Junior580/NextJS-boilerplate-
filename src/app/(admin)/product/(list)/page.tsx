@@ -54,7 +54,7 @@ type PaginationProps = {
   lastPage: number
 }
 
-function Product() {
+function ListProduct() {
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
@@ -148,7 +148,7 @@ function Product() {
       </section>
       <section className="relative max-h-[75vh] overflow-y-auto  rounded-3xl shadow-md sm:rounded-lg">
         <Table className="mr-7 border-collapse text-left text-sm">
-          <TableHeader className=" text-xs uppercase ">
+          <TableHeader className="text-xs uppercase">
             {isLoading && (
               <TableRow>
                 <TableHead>
@@ -400,4 +400,4 @@ function Product() {
   )
 }
 
-export default withAuth(Product, ['ADMIN', 'USER'])
+export default withAuth(ListProduct, ['ADMIN', 'USER'])

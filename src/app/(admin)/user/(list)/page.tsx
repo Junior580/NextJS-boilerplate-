@@ -36,6 +36,13 @@ import {
 import { withAuth } from '@/components/WithAuth'
 import { Skeleton } from '@/components/ui/skeleton'
 import formatDate from '@/lib/formatDate'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb'
+import Link from 'next/link'
 
 type PaginationProps = {
   page: number
@@ -54,7 +61,7 @@ const SignUpSchema = z.object({
 
 type SignUpType = z.infer<typeof SignUpSchema>
 
-function User() {
+function ListUser() {
   const [searchFilter, setSearchFilter] = useState<string>('')
 
   const [pagination, setPagination] = useState<PaginationProps>({
@@ -112,21 +119,43 @@ function User() {
     <main className="p-4">
       <section className="flex w-full items-center justify-between rounded-lg px-4 py-3">
         {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
-        {!isLoading && <h1 className="font-bold">Users</h1>}
-        <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
-          {isLoading && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
-          {!isLoading && (
-            <>
-              <input
-                type="search"
-                placeholder="Search Data..."
-                className="w-full rounded-xl border-none bg-transparent px-1 py-2 outline-none"
-                value={searchFilter}
-                onChange={(e) => setSearchFilter(e.target.value)}
-              />
-              <Search />
-            </>
-          )}
+        {!isLoading && (
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Usuarios</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        )}
+        <div className="mr-6 flex w-52 flex-col items-center gap-4">
+          <div className="flex h-full w-52 items-center justify-center rounded-3xl  px-3 duration-300 ease-in-out hover:w-64">
+            {isLoading && (
+              <Skeleton className="h-[20px] w-[100px] rounded-md" />
+            )}
+            {!isLoading && (
+              <>
+                <input
+                  type="search"
+                  placeholder="Search Data..."
+                  className="w-full rounded-xl border-none bg-transparent px-1 py-2 outline-none"
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                />
+                <Search />
+              </>
+            )}
+          </div>
+          <div>
+            {isLoading && (
+              <Skeleton className="h-[20px] w-[100px] rounded-md" />
+            )}
+            {!isLoading && (
+              <Button asChild>
+                <Link href="/user/create">Cadastrar Usuario</Link>
+              </Button>
+            )}
+          </div>
         </div>
       </section>
       <section className="relative max-h-[75vh] overflow-y-auto  rounded-3xl shadow-md sm:rounded-lg">
@@ -373,4 +402,4 @@ function User() {
   )
 }
 
-export default withAuth(User, ['ADMIN', 'USER'])
+export default withAuth(ListUser, ['ADMIN', 'USER'])

@@ -117,21 +117,18 @@ export default function CreateProduct() {
   return (
     <main className="p-4">
       <section className="flex w-full items-center justify-between rounded-lg  px-4 py-3">
-        {false && <Skeleton className="h-[20px] w-[100px] rounded-md" />}
-        {!false && (
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/product">Produtos</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/product">Produtos</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
 
-              <BreadcrumbItem>
-                <BreadcrumbPage>Novo Produto</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        )}
+            <BreadcrumbItem>
+              <BreadcrumbPage>Novo Produto</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </section>
 
       <Separator className="my-4" />

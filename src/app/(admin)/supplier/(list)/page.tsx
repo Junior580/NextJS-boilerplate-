@@ -46,7 +46,7 @@ type PaginationProps = {
   lastPage: number
 }
 
-export default function Supplier() {
+export default function ListSupplier() {
   const [searchFilter, setSearchFilter] = useState<string>('')
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
