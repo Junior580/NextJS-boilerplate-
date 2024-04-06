@@ -1,12 +1,6 @@
 'use client'
 
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-} from 'react'
+import React, { createContext, useState, useContext, ReactNode } from 'react'
 
 interface User {
   name: string

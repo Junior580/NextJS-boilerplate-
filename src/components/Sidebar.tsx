@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from '@/lib/capitalizeFirstLetter'
 import { useAuth } from '@/hooks/auth'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 type UserInfoProps = {
   name: string
@@ -28,6 +29,8 @@ type UserInfoProps = {
 export default function Sidebar() {
   const router = useRouter()
   const { user } = useAuth()
+  const { removeItem: removeUser } = useLocalStorage('@user')
+  const { removeItem: removeToken } = useLocalStorage('@token')
   const [userInfo, setUserInfo] = useState<UserInfoProps>({} as UserInfoProps)
   const [sidebar, toggleValue] = useToggle(true)
 
@@ -38,10 +41,8 @@ export default function Sidebar() {
   }, [user])
 
   const logout = async () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('@user')
-      localStorage.removeItem('@token')
-    }
+    removeUser()
+    removeToken()
 
     await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
