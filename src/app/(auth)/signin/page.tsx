@@ -1,18 +1,18 @@
 'use client'
 
 import { useCallback } from 'react'
-import z from 'zod'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
+
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import api from '@/services/api'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import api from '@/services/api'
-import { useRouter } from 'next/navigation'
-import { useMutation } from 'react-query'
-
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -48,8 +48,6 @@ export default function SignIn() {
 
         return router.push(`two-factor-auth?user=${email}`)
       }
-      // localStorage.setItem('@user', JSON.stringify(e.data.userInfo))
-      // localStorage.setItem('@token', JSON.stringify(e.data.refresh_token))
       setUser(e.data.userInfo)
       setToken(e.data.refresh_token)
 

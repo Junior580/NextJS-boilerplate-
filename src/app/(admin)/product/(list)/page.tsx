@@ -1,7 +1,16 @@
 'use client'
-
 import { useCallback, useState } from 'react'
 import { FileEdit, Search, Trash } from 'lucide-react'
+import Link from 'next/link'
+import { useQuery } from 'react-query'
+
+import { useGetProducts } from '@/services/getProduct'
+import formatCurrency from '@/lib/formatCurrency'
+import formatDate from '@/lib/formatDate'
+import { withAuth } from '@/components/WithAuth'
+import PaginationControl from '@/components/PaginationControl'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -10,9 +19,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useGetProducts } from '@/services/getProduct'
-import { useQuery } from 'react-query'
-import PaginationControl from '@/components/PaginationControl'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import {
   DialogClose,
   DialogDescription,
@@ -26,39 +43,11 @@ import {
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import formatCurrency from '@/lib/formatCurrency'
-import formatDate from '@/lib/formatDate'
-import { withAuth } from '@/components/WithAuth'
-import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import Link from 'next/link'
 
 type PaginationProps = {
   page: number

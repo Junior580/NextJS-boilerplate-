@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import {
   Search,
   FileEdit,
@@ -10,7 +10,8 @@ import {
   ArrowLeftToLine,
   ArrowRightToLine,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import Image from 'next/image'
+
 import api from '@/services/api'
 
 export default function Permissions() {
@@ -50,10 +51,10 @@ export default function Permissions() {
   }, [page, itemsPerPage])
 
   return (
-    <main className="h-full w-full rounded-xl bg-t3 p-4 text-left shadow-3xl">
-      <section className="flex  w-full items-center justify-between rounded-lg bg-t1 px-4 py-3">
+    <main className="bg-t3 shadow-3xl h-full w-full rounded-xl p-4 text-left">
+      <section className="bg-t1  flex w-full items-center justify-between rounded-lg px-4 py-3">
         <h1 className="font-bold">Permissions:</h1>
-        <div className="flex h-full items-center justify-center rounded-3xl bg-t1 px-3">
+        <div className="bg-t1 flex h-full items-center justify-center rounded-3xl px-3">
           <input
             type="search"
             placeholder="Search Data..."
@@ -62,7 +63,7 @@ export default function Permissions() {
           <Search />
         </div>
       </section>
-      <section className="table-body mx-auto my-3 h-4/5 w-full overflow-auto rounded-xl  bg-t2">
+      <section className="table-body bg-t2 mx-auto my-3 h-4/5 w-full overflow-auto  rounded-xl">
         <table className="w-full">
           <thead className="sticky left-0 top-0 border-collapse bg-secondary">
             <tr>
@@ -116,10 +117,10 @@ export default function Permissions() {
                     <td className="border-collapse p-4">{item.amount}</td>
                     <td className="border-collapse p-4">
                       <td className="flex items-center justify-center">
-                        <button className="cursor-pointer  rounded-lg hover:bg-primary_hover">
+                        <button className="hover:bg-primary_hover  cursor-pointer rounded-lg">
                           <FileEdit />
                         </button>
-                        <button className="cursor-pointer  rounded-lg hover:bg-primary_hover">
+                        <button className="hover:bg-primary_hover  cursor-pointer rounded-lg">
                           <Trash />
                         </button>
                       </td>
@@ -190,7 +191,7 @@ export default function Permissions() {
                 }))
               }
               key={key}
-              className={`cursor-pointer rounded-lg px-1 font-bold hover:bg-primary_hover ${
+              className={`hover:bg-primary_hover cursor-pointer rounded-lg px-1 font-bold ${
                 page === item && 'bg-primary_hover'
               }`}
             >

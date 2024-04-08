@@ -1,13 +1,30 @@
 'use client'
 
-import { Search, FileEdit, Trash } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import PaginationControl from '@/components/PaginationControl'
+import Link from 'next/link'
 import { useQuery } from 'react-query'
-import { ItemsEntity, useGetUsers } from '@/services/getUser'
-import { Table, TableBody, TableCell } from '@/components/ui/table'
-import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
+
+import { useGetUsers } from '@/services/getUser'
+import api from '@/services/api'
+import formatDate from '@/lib/formatDate'
+
+import PaginationControl from '@/components/PaginationControl'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
+import { withAuth } from '@/components/WithAuth'
+
+import { Search, FileEdit, Trash } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -18,7 +35,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,12 +46,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-
-import { Button } from '@/components/ui/button'
-
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -45,16 +55,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { withAuth } from '@/components/WithAuth'
-import { Skeleton } from '@/components/ui/skeleton'
-import formatDate from '@/lib/formatDate'
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
-import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type PaginationProps = {
   page: number
@@ -75,7 +82,6 @@ type SignUpType = z.infer<typeof SignUpSchema>
 
 function ListUser() {
   const [searchFilter, setSearchFilter] = useState<string>('')
-
   const [pagination, setPagination] = useState<PaginationProps>({
     page: 1,
     itemsPerPage: 10,

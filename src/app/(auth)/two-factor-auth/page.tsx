@@ -1,20 +1,15 @@
 'use client'
 
-import { Input } from '@/components/Input'
-import api from '@/services/api'
-import { useRouter } from 'next/navigation'
-
+import { useCallback } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
-import { z } from 'zod'
-
+import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
-
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback } from 'react'
-import ErrorMessage from '@/components/ErrorMessage'
-import { Button } from '@/components/ui/button'
 
+import api from '@/services/api'
+import { Button } from '@/components/ui/button'
 import {
   InputOTP,
   InputOTPGroup,
