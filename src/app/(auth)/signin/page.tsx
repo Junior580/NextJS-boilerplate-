@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import useFocusInput from '@/hooks/useRef'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -25,6 +26,7 @@ export default function SignIn() {
   const router = useRouter()
   const { setItem: setUser } = useLocalStorage('@user')
   const { setItem: setToken } = useLocalStorage('@token')
+  const [inputRef] = useFocusInput(true)
 
   const {
     control,
@@ -88,7 +90,12 @@ export default function SignIn() {
             name="email"
             render={({ field: { onChange, value } }) => (
               <>
-                <Input placeholder="E-mail" onChange={onChange} value={value} />
+                <Input
+                  placeholder="E-mail"
+                  onChange={onChange}
+                  value={value}
+                  ref={inputRef}
+                />
                 {errors.email && (
                   <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
