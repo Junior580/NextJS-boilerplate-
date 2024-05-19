@@ -57,7 +57,7 @@ export default function CreateProduct() {
   )
 
   const {
-    control,
+    register,
     handleSubmit,
     reset,
     formState: { errors },
@@ -138,148 +138,105 @@ export default function CreateProduct() {
       <section className="rounded-3xlshadow-md relative   sm:rounded-lg">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <Label>Nome</Label>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.name && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.name.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+          <Input {...register('name')} />
+          {errors.name && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.name.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Descrição</Label>
-          <Controller
-            control={control}
-            name="description"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.description && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.description?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+          <Input {...register('description')} />
+          {errors.description && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.description?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Qtd. em estoque</Label>
-          <Controller
-            control={control}
-            name="quantityStock"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input
-                  type="number"
-                  onChange={(e) =>
-                    onChange(
-                      e.target.value === '' ? '' : parseFloat(e.target.value),
-                    )
-                  }
-                  value={value}
-                />
-                {errors.quantityStock && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.quantityStock?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
+
+          <Input
+            type="number"
+            {...register('quantityStock', {
+              setValueAs(value) {
+                parseFloat(value)
+              },
+            })}
           />
+          {errors.quantityStock && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {errors.quantityStock?.message}
+              </AlertDescription>
+            </Alert>
+          )}
 
           <Label>Preço unitário de compra</Label>
-          <Controller
-            control={control}
-            name="unitPurchasePrice"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input
-                  type="number"
-                  onChange={(e) => onChange(parseFloat(e.target.value))}
-                  value={value}
-                />
-                {errors.unitPurchasePrice && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.unitPurchasePrice?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
+          <Input
+            type="number"
+            {...register('unitPurchasePrice', {
+              setValueAs(value) {
+                parseFloat(value)
+              },
+            })}
           />
+          {errors.unitPurchasePrice && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {errors.unitPurchasePrice?.message}
+              </AlertDescription>
+            </Alert>
+          )}
 
           <Label>Preço unitário de venda</Label>
-          <Controller
-            control={control}
-            name="unitSalesPrice"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input
-                  type="number"
-                  onChange={(e) => onChange(parseFloat(e.target.value))}
-                  value={value}
-                />
-                {errors.unitSalesPrice && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.unitSalesPrice?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
+
+          <Input
+            type="number"
+            {...register('unitSalesPrice', {
+              setValueAs(value) {
+                parseFloat(value)
+              },
+            })}
           />
+          {errors.unitSalesPrice && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {errors.unitSalesPrice?.message}
+              </AlertDescription>
+            </Alert>
+          )}
 
           {isLoading && <Skeleton className="h-[20px] w-[90px] rounded-md" />}
 
           {!isLoading && (
             <>
               <Label>Fornecedor</Label>
-              <Controller
-                control={control}
-                name="supplier"
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Select value={value} onValueChange={onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Fornecedor" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {data?.items?.map((item) => (
-                          <SelectItem key={item.id} value={item.name}>
-                            {item.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+              <Select {...register('supplier')}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Fornecedor" />
+                </SelectTrigger>
+                <SelectContent>
+                  {data?.items?.map((item) => (
+                    <SelectItem key={item.id} value={item.name}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-                    {errors.supplier && (
-                      <Alert variant="destructive">
-                        <AlertCircle className="h-4 w-4" />
-                        <AlertDescription>
-                          {errors.supplier?.message}
-                        </AlertDescription>
-                      </Alert>
-                    )}
-                  </>
-                )}
-              />
+              {errors.supplier && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    {errors.supplier?.message}
+                  </AlertDescription>
+                </Alert>
+              )}
             </>
           )}
 

@@ -29,7 +29,7 @@ export default function SignIn() {
   const [inputRef] = useFocusInput(true)
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpSchemaType>({
@@ -85,49 +85,25 @@ export default function SignIn() {
         >
           <h1 className="mb-1 text-xl font-bold">Faça seu logon</h1>
 
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input
-                  placeholder="E-mail"
-                  onChange={onChange}
-                  value={value}
-                  ref={inputRef}
-                />
-                {errors.email && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.email.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+          <Input placeholder="E-mail" {...register('email')} ref={inputRef} />
+          {errors.email && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.email.message}</AlertDescription>
+            </Alert>
+          )}
 
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input
-                  type="password"
-                  placeholder="Senha"
-                  onChange={onChange}
-                  value={value}
-                />
-                {errors.password && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.password.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
+          <Input
+            type="password"
+            placeholder="Senha"
+            {...register('password')}
           />
+          {errors.password && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.password.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Button type="submit">Entrar</Button>
         </form>
