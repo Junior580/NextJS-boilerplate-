@@ -17,7 +17,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Skeleton } from '@/components/ui/skeleton'
+
 import { Separator } from '@/components/ui/separator'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -38,7 +38,7 @@ export default function CreateSupplier() {
   const { toast } = useToast()
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<SupplierSchemaType>({
@@ -106,58 +106,33 @@ export default function CreateSupplier() {
       <section className="rounded-3xlshadow-md relative   sm:rounded-lg">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <Label>Nome</Label>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.name && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.name.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+
+          <Input {...register('name')} />
+          {errors.name && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.name.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Contato</Label>
-          <Controller
-            control={control}
-            name="contact"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.name && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.contact?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+          <Input {...register('contact')} />
+          {errors.name && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.contact?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Telefone</Label>
 
-          <Controller
-            control={control}
-            name="phone"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.name && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.phone?.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+          <Input {...register('phone')} />
+          {errors.name && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.phone?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <div className="flex gap-2 self-end pt-2">
             <Button variant="destructive">Cancelar</Button>
