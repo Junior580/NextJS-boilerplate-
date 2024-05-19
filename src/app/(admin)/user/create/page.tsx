@@ -40,7 +40,7 @@ export default function CreateUser() {
   const { toast } = useToast()
 
   const {
-    control,
+    register,
     handleSubmit,
     reset,
     formState: { errors },
@@ -113,57 +113,34 @@ export default function CreateUser() {
       <section className="rounded-3xlshadow-md relative   sm:rounded-lg">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <Label>Nome</Label>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.name && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.name?.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+
+          <Input {...register('name')} />
+          {errors.name && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.name?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Email</Label>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input onChange={onChange} value={value} />
-                {errors.email && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{errors.email?.message}</AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+
+          <Input {...register('email')} />
+          {errors.email && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.email?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <Label>Senha</Label>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Input type="password" onChange={onChange} value={value} />
-                {errors.password && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      {errors.password?.message}
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
-          />
+
+          <Input type="password" {...register('password')} />
+          {errors.password && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{errors.password?.message}</AlertDescription>
+            </Alert>
+          )}
 
           <div className="flex gap-2 self-end pt-2">
             <Button variant="destructive" asChild>
