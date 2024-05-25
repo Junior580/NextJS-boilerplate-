@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { getUsers } from '@/services/getUser'
-import api from '@/services/api'
+
 import formatDate from '@/lib/formatDate'
 
 import PaginationControl from '@/components/PaginationControl'
@@ -23,7 +23,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { withAuth } from '@/components/WithAuth'
 
-import { Search, FileEdit, Trash } from 'lucide-react'
+import { Search, FileEdit, Trash, ArrowUp, ArrowDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -97,8 +97,8 @@ function ListUser() {
     currentPage: 1,
     lastPage: 0,
   })
-  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-  const [sort, setSort] = useState<SortProps>('name')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [sort, setSort] = useState<SortProps>('createdAt')
 
   const handleChange = useCallback(
     (key: keyof PaginationProps, value: number) => {
@@ -228,7 +228,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  Name
+                  <div className="flex items-center gap-2">
+                    {sort === 'name' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>Name</p>
+                  </div>
                 </TableHead>
                 <TableHead
                   onClick={() => {
@@ -242,7 +250,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  E-mail
+                  <div className="flex items-center gap-2">
+                    {sort === 'email' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>E-mail</p>
+                  </div>
                 </TableHead>
                 <TableHead
                   onClick={() => {
@@ -256,7 +272,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  Verified E-mail
+                  <div className="flex items-center gap-2">
+                    {sort === 'emailVerified' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>Verified E-mail</p>
+                  </div>
                 </TableHead>
                 <TableHead
                   onClick={() => {
@@ -270,7 +294,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  Two Factor Auth
+                  <div className="flex items-center gap-2">
+                    {sort === 'isTwoFactorEnabled' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>Two Factor Auth</p>
+                  </div>
                 </TableHead>
                 <TableHead
                   onClick={() => {
@@ -284,7 +316,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  Role
+                  <div className="flex items-center gap-2">
+                    {sort === 'role' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>Role</p>
+                  </div>
                 </TableHead>
                 <TableHead
                   onClick={() => {
@@ -298,7 +338,15 @@ function ListUser() {
                     refetch()
                   }}
                 >
-                  Created At
+                  <div className="flex items-center gap-2">
+                    {sort === 'createdAt' &&
+                      (sortDir === 'asc' ? (
+                        <ArrowUp size={15} />
+                      ) : (
+                        <ArrowDown size={15} />
+                      ))}
+                    <p>Created At</p>
+                  </div>
                 </TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -390,7 +438,7 @@ function ListUser() {
                   </Badge>
                 </TableCell>
                 <TableCell>{formatDate(item.createdAt)}</TableCell>
-                <TableCell>
+                <TableCell className="flex">
                   <Dialog>
                     <DialogTrigger className="hover:bg-primary_hover cursor-pointer rounded-lg p-1  duration-150 ease-in-out">
                       <FileEdit />
