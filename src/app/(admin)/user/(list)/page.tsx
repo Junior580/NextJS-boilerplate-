@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
-import { useGetUsers } from '@/services/getUser'
+import { getUsers } from '@/services/getUser'
 import api from '@/services/api'
 import formatDate from '@/lib/formatDate'
 
@@ -88,6 +88,8 @@ function ListUser() {
     currentPage: 1,
     lastPage: 0,
   })
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [sort, setSort] = useState<'name' | 'createdAt'>('name')
 
   const handleChange = useCallback(
     (key: keyof PaginationProps, value: number) => {
@@ -105,22 +107,17 @@ function ListUser() {
     formState: { errors },
   } = useForm<SignUpType>({
     resolver: zodResolver(SignUpSchema),
-    // defaultValues: {
-    //   id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   isTwoFactorEnabled: user.isTwoFactorEnabled,
-    //   role: user.role,
-    // },
   })
 
-  const { data, isError, isLoading } = useQuery(
+  const { data, isError, isLoading, refetch } = useQuery(
     ['user-list', pagination],
     () =>
-      useGetUsers({
+      getUsers({
         itemsPerPage: pagination.itemsPerPage,
         page: pagination.page,
         searchFilter: searchFilter,
+        sortDir: sortDir,
+        sort: sort,
       }),
     { keepPreviousData: true, staleTime: 5000 },
   )
@@ -210,12 +207,38 @@ function ListUser() {
             {!isLoading && (
               <TableRow>
                 <TableHead>Id</TableHead>
-                <TableHead>Name</TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('name')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  Name
+                </TableHead>
                 <TableHead>E-mail</TableHead>
                 <TableHead>Verified E-mail</TableHead>
                 <TableHead>Two Factor Auth</TableHead>
                 <TableHead>Role</TableHead>
-                <TableHead>Created At</TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('createdAt')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  Created At
+                </TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             )}

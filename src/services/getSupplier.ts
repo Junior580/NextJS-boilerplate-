@@ -23,7 +23,7 @@ type Data = {
   perPage: number
 }
 
-export async function useGetSupplier({
+export async function getSupplier({
   itemsPerPage,
   page,
   searchFilter,

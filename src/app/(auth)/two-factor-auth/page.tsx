@@ -36,8 +36,6 @@ export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
   const searchParams = useSearchParams()
   const email = searchParams.get('user')
 
-  if (!email) return router.replace('/signin')
-
   const {
     control,
     handleSubmit,
@@ -71,6 +69,9 @@ export default function TwoFactorAuth({ params }: TwoFactorAuthProps) {
     async (data) => mutate(data),
     [mutate],
   )
+
+  if (!email) return router.replace('/signin')
+
   return (
     <main className="flex h-screen items-center justify-center">
       <div>

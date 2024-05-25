@@ -6,7 +6,7 @@ import Link from 'next/link'
 import z from 'zod'
 
 import api from '@/services/api'
-import { useGetSupplier } from '@/services/getSupplier'
+import { getSupplier } from '@/services/getSupplier'
 import formatDate from '@/lib/formatDate'
 import { capitalizeFirstLetter } from '@/lib/capitalizeFirstLetter'
 import { useToast } from '@/components/ui/use-toast'
@@ -41,7 +41,7 @@ const ProductSchema = z.object({
   quantityStock: z.number(),
   unitPurchasePrice: z.number(),
   unitSalesPrice: z.number(),
-  supplier: z.string().optional(),
+  supplier: z.string(),
 })
 
 type ProductSchemaType = z.infer<typeof ProductSchema>
@@ -49,7 +49,7 @@ type ProductSchemaType = z.infer<typeof ProductSchema>
 export default function CreateProduct() {
   const { toast } = useToast()
   const { data, isLoading } = useQuery(['supplier-list'], () =>
-    useGetSupplier({
+    getSupplier({
       itemsPerPage: 0,
       page: 1,
       searchFilter: '',
@@ -66,10 +66,10 @@ export default function CreateProduct() {
     defaultValues: {
       name: '',
       description: '',
-      quantityStock: '' as any,
-      unitPurchasePrice: '' as any,
-      unitSalesPrice: '' as any,
-      supplier: '',
+      quantityStock: parseInt(''),
+      unitPurchasePrice: parseInt(''),
+      unitSalesPrice: parseInt(''),
+      supplier: 'desconhecido',
     },
   })
 
@@ -78,7 +78,7 @@ export default function CreateProduct() {
       return api.post('/product', {
         ...data,
         name: capitalizeFirstLetter(data.name),
-        supplier: data.supplier === '' ? null : data.supplier,
+        supplier: data.supplier === '' ? 'desconhecido' : data.supplier,
       })
     },
     onSuccess: (e) => {
@@ -112,8 +112,10 @@ export default function CreateProduct() {
   })
 
   const onSubmit: SubmitHandler<ProductSchemaType> = useCallback(
-    async (data) => mutate(data),
-    [],
+    async (data) => {
+      return mutate(data)
+    },
+    [mutate],
   )
 
   return (
@@ -161,7 +163,7 @@ export default function CreateProduct() {
             type="number"
             {...register('quantityStock', {
               setValueAs(value) {
-                parseFloat(value)
+                return parseInt(value)
               },
             })}
           />
@@ -179,7 +181,7 @@ export default function CreateProduct() {
             type="number"
             {...register('unitPurchasePrice', {
               setValueAs(value) {
-                parseFloat(value)
+                return parseInt(value)
               },
             })}
           />
@@ -198,7 +200,7 @@ export default function CreateProduct() {
             type="number"
             {...register('unitSalesPrice', {
               setValueAs(value) {
-                parseFloat(value)
+                return parseInt(value)
               },
             })}
           />
@@ -211,11 +213,14 @@ export default function CreateProduct() {
             </Alert>
           )}
 
-          {isLoading && <Skeleton className="h-[20px] w-[90px] rounded-md" />}
+          <Label>Fornecedor</Label>
+
+          {isLoading && (
+            <Skeleton className="mt-2 h-[50px] w-full rounded-md" />
+          )}
 
           {!isLoading && (
             <>
-              <Label>Fornecedor</Label>
               <Select {...register('supplier')}>
                 <SelectTrigger>
                   <SelectValue placeholder="Fornecedor" />

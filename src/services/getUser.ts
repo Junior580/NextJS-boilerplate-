@@ -5,6 +5,8 @@ type GetUserProps = {
   itemsPerPage: number
   page: number
   searchFilter: string
+  sortDir: 'asc' | 'desc'
+  sort: 'name' | 'createdAt'
 }
 
 export type ItemsEntity = {
@@ -27,14 +29,16 @@ type Data = {
   perPage: number
 }
 
-export async function useGetUsers({
+export async function getUsers({
   itemsPerPage,
   page,
   searchFilter,
+  sortDir,
+  sort,
 }: GetUserProps) {
   return api
     .get<Data>(
-      `/list-user?perPage=${itemsPerPage}&page=${page}&filter=${searchFilter}`,
+      `/list-user?perPage=${itemsPerPage}&page=${page}&sortDir=${sortDir}&sort=${sort}&filter=${searchFilter}`,
     )
     .then((response) => response.data)
 }

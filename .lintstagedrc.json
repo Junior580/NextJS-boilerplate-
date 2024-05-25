@@ -1,7 +1,0 @@
-{
-  "*.tsx": [
-    "npx eslint 'src/**/*.tsx' --fix",
-    "npx prettier --write 'src/**'",
-    "npx prettier --check 'src/**'"
-  ]
-}

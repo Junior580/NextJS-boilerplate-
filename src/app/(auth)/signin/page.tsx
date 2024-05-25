@@ -65,6 +65,8 @@ export default function SignIn() {
     [mutate],
   )
 
+  console.log(`onsubmit: ${JSON.stringify(errors)}`)
+
   const getErrorMessage = (error: { message?: string }) => {
     switch (error.message) {
       case 'Incorrect username and password combination':
@@ -85,7 +87,12 @@ export default function SignIn() {
         >
           <h1 className="mb-1 text-xl font-bold">Faça seu logon</h1>
 
-          <Input placeholder="E-mail" {...register('email')} ref={inputRef} />
+          <Input
+            //ref={inputRef}
+
+            placeholder="E-mail"
+            {...register('email')}
+          />
           {errors.email && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
