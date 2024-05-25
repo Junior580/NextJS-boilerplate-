@@ -63,6 +63,15 @@ import {
 } from '@/components/ui/breadcrumb'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+type SortProps =
+  | 'name'
+  | 'email'
+  | 'emailVerified'
+  | 'image'
+  | 'role'
+  | 'isTwoFactorEnabled'
+  | 'createdAt'
+
 type PaginationProps = {
   page: number
   itemsPerPage: number
@@ -89,7 +98,7 @@ function ListUser() {
     lastPage: 0,
   })
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-  const [sort, setSort] = useState<'name' | 'createdAt'>('name')
+  const [sort, setSort] = useState<SortProps>('name')
 
   const handleChange = useCallback(
     (key: keyof PaginationProps, value: number) => {
@@ -221,10 +230,62 @@ function ListUser() {
                 >
                   Name
                 </TableHead>
-                <TableHead>E-mail</TableHead>
-                <TableHead>Verified E-mail</TableHead>
-                <TableHead>Two Factor Auth</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('email')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  E-mail
+                </TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('emailVerified')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  Verified E-mail
+                </TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('isTwoFactorEnabled')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  Two Factor Auth
+                </TableHead>
+                <TableHead
+                  onClick={() => {
+                    setSort('role')
+                    if (sortDir === 'asc') {
+                      setSortDir('desc')
+                    }
+                    if (sortDir === 'desc') {
+                      setSortDir('asc')
+                    }
+                    refetch()
+                  }}
+                >
+                  Role
+                </TableHead>
                 <TableHead
                   onClick={() => {
                     setSort('createdAt')

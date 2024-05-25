@@ -1,12 +1,20 @@
-import { useQuery } from 'react-query'
 import api from './api'
+
+type SortProps =
+  | 'name'
+  | 'email'
+  | 'emailVerified'
+  | 'image'
+  | 'role'
+  | 'isTwoFactorEnabled'
+  | 'createdAt'
 
 type GetUserProps = {
   itemsPerPage: number
   page: number
   searchFilter: string
   sortDir: 'asc' | 'desc'
-  sort: 'name' | 'createdAt'
+  sort: SortProps
 }
 
 export type ItemsEntity = {
