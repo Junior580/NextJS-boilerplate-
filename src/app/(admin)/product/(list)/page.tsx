@@ -4,7 +4,7 @@ import { FileEdit, Search, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 
-import { useGetProducts } from '@/services/getProduct'
+import { getProducts } from '@/services/getProduct'
 import formatCurrency from '@/lib/formatCurrency'
 import formatDate from '@/lib/formatDate'
 import { withAuth } from '@/components/WithAuth'
@@ -78,7 +78,7 @@ function ListProduct() {
   const { data, isError, isLoading } = useQuery(
     ['product-list', pagination],
     () =>
-      useGetProducts({
+      getProducts({
         itemsPerPage: pagination.itemsPerPage,
         page: pagination.page,
         searchFilter: searchFilter,

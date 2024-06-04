@@ -25,7 +25,7 @@ type Data = {
   perPage: number
 }
 
-export async function useGetProducts({
+export async function getProducts({
   itemsPerPage,
   page,
   searchFilter,

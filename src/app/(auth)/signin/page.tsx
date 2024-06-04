@@ -68,6 +68,7 @@ export default function SignIn() {
   console.log(`onsubmit: ${JSON.stringify(errors)}`)
 
   const getErrorMessage = (error: { message?: string }) => {
+    console.log(error)
     switch (error.message) {
       case 'Incorrect username and password combination':
         return 'Usuário ou senha incorretos'
