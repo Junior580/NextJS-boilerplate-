@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, startTransition } from 'react'
+import { useCallback } from 'react'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@/components/Button'
@@ -35,7 +35,7 @@ export default function SignIn() {
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: async (data: SignUpSchemaType) => {
-      return api.post('/api/auth', data)
+      return api.post('/auth', data)
     },
     onSuccess: () => router.replace('/dashboard'),
   })
@@ -70,7 +70,7 @@ export default function SignIn() {
           <Controller
             control={control}
             name="password"
-            render={({ field: { onChange, value, onBlur } }) => (
+            render={({ field: { onChange, value, } }) => (
               <Input
                 type="password"
                 placeholder="Senha"

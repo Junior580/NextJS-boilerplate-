@@ -20,15 +20,14 @@ export default function Sidebar() {
   const [sidebar, toggleValue] = useToggle(true)
 
   const logout = async () => {
-    await api.post('/logout').then(() => router.replace('/signin'))
+    await api.post('/auth/logout').then(() => router.replace('/signin'))
   }
 
   return (
     <aside>
       <div
-        className={`flex h-screen w-14 ${
-          sidebar ? 'md:w-64' : 'md:w-14'
-        } relative flex-col items-center  border-r-2 border-gray-400 bg-green-100`}
+        className={`flex h-screen w-14 ${sidebar ? 'md:w-64' : 'md:w-14'
+          } relative flex-col items-center  border-r-2 border-gray-400 bg-green-100`}
       >
         {/* <h1 className="mt-4 flex flex-col items-center gap-1 text-xl font-bold text-green-500">
         <LockKeyhole size={30} />
